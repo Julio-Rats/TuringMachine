@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "exec.h"
 #include "decodArgs.h"
+#include "decodc.h"
 
 void interface();
 
@@ -15,18 +16,35 @@ int main(int argc, char *argv[]){
       printf("Fonte(Progama): Entrada com arquivo.MT com codigo de execução\n\n");
       exit(1);
   }
+  FILE *file;
+  if(!(file=fopen(argv[argc-1],"r"))){
+      fprintf(stderr, "ERRO: ao abrir arquivo\n", argv[argc-1]);
+      exit(1);
+  }
   cabecote = 0;
-  decodArgs(argc, argv);
-  interface();
 
-  printf("fita  = %s\n", fita);
+  getBlocos(file);
+
+  // decodArgs(argc, argv);
+  // interface();
+
+  // printf("fita  = %s\n", fita);
 //  modo = type_v;
   //modo = 1;
   //modo = 2;
 //  if(modo == type_v)
-  printf("modo = %d\n", modo);
-  printf("n_step   = %d\n", n_step);
-  printf("cabeçote = %s\n", delim_cabecote);
+  // printf("modo = %d\n", modo);
+  // printf("n_step   = %d\n", n_step);
+  // printf("cabeçote = %s\n", delim_cabecote);
+  char txt[100];
+  for(int i=0;n_blocos>i;i++){
+       printf("name:%s\nestado inicial:%04d\npositon:%ld\n",
+                blocos[i].name, atoi(blocos[i].initState), blocos[i].position_file);
+       fseek(file,blocos[i].position_file,SEEK_SET);
+       fgets(txt,100,file);
+       printf("%s\n", txt);
+  }
+
   return 0;
 }
 
