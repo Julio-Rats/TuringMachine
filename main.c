@@ -22,13 +22,13 @@ int main(int argc, char *argv[]){
       exit(1);
   }
   cabecote = 0;
-
   getBlocos(file);
 
-  // decodArgs(argc, argv);
-  // interface();
+  //decodArgs(argc, argv);
+  interface();
 
-  // printf("fita  = %s\n", fita);
+  printf("fita  = %s\n", fita);
+
 //  modo = type_v;
   //modo = 1;
   //modo = 2;
@@ -36,14 +36,7 @@ int main(int argc, char *argv[]){
   // printf("modo = %d\n", modo);
   // printf("n_step   = %d\n", n_step);
   // printf("cabeçote = %s\n", delim_cabecote);
-  char txt[100];
-  for(int i=0;n_blocos>i;i++){
-       printf("name:%s\nestado inicial:%04d\npositon:%ld\n",
-                blocos[i].name, atoi(blocos[i].initState), blocos[i].position_file);
-       fseek(file,blocos[i].position_file,SEEK_SET);
-       fgets(txt,100,file);
-       printf("%s\n", txt);
-  }
+  exec(file);
 
   return 0;
 }

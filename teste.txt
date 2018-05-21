@@ -1,5 +1,11 @@
 ola mundo teste linha 1
-   ;inha 2 e vai  bloco marmota 34 ; bloco
+ ; inha 2 e vai  bloco marmota 34 ; bloco
 linha 43 chega
-bloco nadadadada 2343
-ola mundo
+bloco main 1 ; dasidjasi
+ ;rola mundo -- tchau
+ 01 a -- g d 01 ;assadas
+ sdasdsa ; nao pode
+ 43 b move sad ; sai daqui
+ assfimadas
+ /fim
+ola

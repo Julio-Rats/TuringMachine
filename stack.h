@@ -8,13 +8,18 @@ typedef struct {
     cell *top;
 }stack;
 
+typedef struct{
+    bloco *recall_bloco;
+    char  recall_state[5];
+}recall;
+
 struct cell{
-    bloco *data;
-    cell *bot;
+    recall *data;
+    cell  *bot;
 };
 
 stack *initStack(void);
-void   pushStack(stack *pilha, bloco *new_data);
-bloco *popStack(stack *pilha);
+void   pushStack(stack *pilha, recall *new_data);
+recall *popStack(stack *pilha);
 
 #endif
