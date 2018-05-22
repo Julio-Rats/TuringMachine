@@ -11,7 +11,7 @@ typedef enum{
 
 type_mod modo;
 
-int n_step,atual_step;
+int n_step;
 char delim_cabecote[3];
 
 #endif

@@ -4,7 +4,7 @@
 
 void getBlocos(FILE *arq){
     rewind(arq);
-    char line[128];
+    char line[tam_line];
     char *ptr;
     n_blocos = 0;
     while(!feof(arq)){
@@ -16,7 +16,7 @@ void getBlocos(FILE *arq){
         while(ptr){
               if (strcmp(ptr,"bloco")==0){
                   ptr = strtok(NULL," ");
-                  if (!ptr){fprintf(stderr, "ERROR SINTAXE BLOCOS\n");exit(1);}
+                  if (!ptr){fprintf(stderr, "\n\nERROR SINTAXE BLOCOS\n\n");exit(1);}
                   if(n_blocos == 0){
                      blocos = (bloco *) malloc(sizeof(bloco)*(++n_blocos));
                   }else{
@@ -25,7 +25,7 @@ void getBlocos(FILE *arq){
                   strcpy(blocos[n_blocos-1].name, ptr);
                   blocos[n_blocos-1].position_file = ftell(arq);
                   ptr = strtok(NULL," ");
-                  if (!ptr){fprintf(stderr, "ERROR SINTAXE BLOCOS\n");exit(1);}
+                  if (!ptr){fprintf(stderr, "\n\nERROR SINTAXE BLOCOS\n\n");exit(1);}
                   strcpy(blocos[n_blocos-1].initState, ptr);
               }
               ptr = strtok(NULL," ");

@@ -1,11 +1,22 @@
-ola mundo teste linha 1
- ; inha 2 e vai  bloco marmota 34 ; bloco
-linha 43 chega
-bloco main 1 ; dasidjasi
- ;rola mundo -- tchau
- 01 a -- g d 01 ;assadas
- sdasdsa ; nao pode
- 43 b move sad ; sai daqui
- assfimadas
- /fim
+;teste
+ ;;  muito testes lkkkkk
+ bloco main 5
+  sdas ; dasdas
+ 3 a -- S e pare
+ 1 a -- C d 2
+ 2 a -- M d 3
+ 5  nomebemgrande 1 a
+fim
+ bloco new 1
+ 2 b -- e d pare
+ 2 a -- A d retorne
+ 1 a -- J d retorne
+ fim
+
+
+ bloco nomebemgrande 1
+ 2 b -- e d pare
+ 2 a -- A d retorne
+ 1 a -- J d retorne
+ fim
 ola

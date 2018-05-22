@@ -18,24 +18,16 @@ int main(int argc, char *argv[]){
   }
   FILE *file;
   if(!(file=fopen(argv[argc-1],"r"))){
-      fprintf(stderr, "ERRO: ao abrir arquivo\n", argv[argc-1]);
+      fprintf(stderr, "\nERRO: ao abrir arquivo\n\n", argv[argc-1]);
       exit(1);
   }
   cabecote = 0;
-  getBlocos(file);
-
-  //decodArgs(argc, argv);
+  decodArgs(argc, argv);
   interface();
-
-  printf("fita  = %s\n", fita);
-
-//  modo = type_v;
-  //modo = 1;
-  //modo = 2;
-//  if(modo == type_v)
-  // printf("modo = %d\n", modo);
-  // printf("n_step   = %d\n", n_step);
-  // printf("cabeçote = %s\n", delim_cabecote);
+  getBlocos(file);
+  for(int i=strlen(fita);i<tam_fita;i++){
+      fita[i]='_';
+  }
   exec(file);
 
   return 0;
@@ -47,4 +39,5 @@ void interface(){
   printf("a disciplina de Teoria da Computação\n" );
   printf("Autores: Julio Cesar M.C. e Renato Borges B.\tIFMG 2018.\n\nForneça a palavra inicial: ");
   scanf("%s", fita);
+  printf("\n");
 }

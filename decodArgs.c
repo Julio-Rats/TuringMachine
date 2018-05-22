@@ -26,7 +26,7 @@ void decodArgs(int argc,char *argv[]){
                     delim_cabecote[1] = argv[i+1][strlen(argv[i+1])-1];
                   break;
                 default:
-                    printf("ERRO PARAMETRO %s INVALIDO\n", argv[i]);
+                    printf("\nERRO PARAMETRO %s INVALIDO\n\n", argv[i]);
                     exit(1);
               }
         }

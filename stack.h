@@ -9,7 +9,8 @@ typedef struct {
 }stack;
 
 typedef struct{
-    bloco *recall_bloco;
+    char  recall_bloco[17];
+    int   n_bloco;
     char  recall_state[5];
 }recall;
 

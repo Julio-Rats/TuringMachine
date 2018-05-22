@@ -8,7 +8,7 @@ stack *initStack(void){
     return aux;
 }
 void  pushStack(stack *pilha, recall *new_data){
-  cell *aux = (cell *) malloc(sizeof(cell));
+  cell *aux  = (cell *) malloc(sizeof(cell));
   aux->data  = new_data;
   aux->bot   = pilha->top;
   pilha->top = aux;
@@ -19,8 +19,8 @@ recall *popStack(stack *pilha){
         return NULL;
     }
     recall *aux_data = pilha->top->data;
-    cell *aux = pilha->top;
-    pilha->top = pilha->top->bot;
+    cell *aux        = pilha->top;
+    pilha->top       = pilha->top->bot;
     free(aux);
     return aux_data;
 }
