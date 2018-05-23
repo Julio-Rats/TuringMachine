@@ -3,15 +3,19 @@
 
 void decodArgs(int argc,char *argv[]);
 
+/*
+    Enum para definir qual PARAMETRO de impressão a MT executara.
+*/
+
 typedef enum{
-    type_r=1,
-    type_v=2,
-    type_s=3
+    type_r=1,  // tipo silencioso
+    type_v=2, //  tipo "verboso"
+    type_s=3 //   tipo apos n passos fica "verboso"
 }type_mod;
 
-type_mod modo;
+type_mod modo; // variavel GLOBAL de controle de PARAMETRO
 
-int n_step;
-char delim_cabecote[3];
+int n_step;   // variavel de controle para entrada do tipo -S (numero de passos)
+char delim_cabecote[3];  // delimitador do cabeçote entrada -h
 
 #endif
