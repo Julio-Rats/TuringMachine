@@ -7,6 +7,7 @@
 
 char  estado_atual[5],novo_estado[5];
 char  bloco_atual[17];
+char  *simbolo_atual;
 char  fita[tam_fita];
 stack *pilha_blocos;
 int   cabecote;
@@ -14,7 +15,7 @@ unsigned long seek;
 
 void exec(FILE *arq);
 void print(int fin);
-void erro(void);
+void para(void);
 void accept(void);
 void execinstr(char *line, FILE *arq);
 void execblock(char *line, FILE *arq);

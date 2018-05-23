@@ -16,7 +16,7 @@ void setseekbloco(FILE *arq, char*name_bloco){
         return;
     }
     printf("\nErro bloco não encontrado %s\n\n", name_bloco);
-    erro();
+    para();
 }
 
 void exec(FILE *arq){
@@ -48,8 +48,8 @@ back:
        if(strcmp(aux,"fim")==0){
             strtok(estado_atual,"\n");
             print(0);
-            printf("\nERROR TRANSIÇÃO BLOCO %s ESTADO %s COM %c NÃO DEFINIDA\n",bloco_atual, estado_atual, fita[cabecote]);
-            erro();
+            printf("\nERROR TRANSIÇÃO BLOCO %s ESTADO %s COM %c NÃO DEFINIDA\n",bloco_atual,estado_atual, fita[cabecote]);
+            para();
        }
        if(atoi(aux) == atoi(estado_atual)){
              simb = strtok(NULL," ");
@@ -62,7 +62,7 @@ back:
                }else{
                   type_cod = 1;
                }
-                  if ((type_cod == 0) && (simb[0] == fita[cabecote])){
+                  if ((type_cod == 0) && ((simb[0] == fita[cabecote]) || (simb[0]=='*'))) {
                       execinstr(line, arq);
                       goto back;
                   }if (type_cod == 1){
@@ -73,7 +73,7 @@ back:
       fgets(line,128,arq);
    }
 }
-void erro(void){
+void para(void){
       //system("clear");
       printf("MT ENCERROU\n\n");
       exit(0);
@@ -88,7 +88,9 @@ void execinstr(char *line, FILE *arq){
   while(line){
     switch (cont) {
       case 3:
-          fita[cabecote] = line[0];
+          if (line[0]!='*'){
+               fita[cabecote] = line[0];
+          }
           break;
       case 4:
           if(line[0]=='e'){
@@ -107,7 +109,7 @@ void execinstr(char *line, FILE *arq){
                 recall *retorno = popStack(pilha_blocos);
                 if (!retorno){
                         printf("\nErro de retorno de bloco\n");
-                        erro();
+                        para();
                 }
                 strcpy(bloco_atual,(char*)retorno->recall_bloco);
                 n_bloco_atual      =  retorno->n_bloco;
@@ -212,7 +214,11 @@ void print(int fin){
           printf("%s%s.%04d:%s\n",ponts,bloco_atual ,atoi(estado_atual),fitaprint);
     }
     if (fin){
-       printf("\n");
-       erro();
+      if (modo==1){
+          modo=2;
+          print(0);
+          printf("\n" );
+       }
+       para();
      }
 }
