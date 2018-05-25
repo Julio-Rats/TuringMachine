@@ -1,6 +1,9 @@
 #ifndef DECODC
 #define  DECODC
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "trim.h"
 #define   tam_line 128
 
 /*
@@ -20,7 +23,6 @@ typedef struct{
 */
 
 bloco *blocos;
-int   n_bloco_atual;
 int   n_blocos;
 
 // funçao que pega todos os blocos no arquivo.
