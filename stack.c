@@ -1,12 +1,15 @@
-#include <stdlib.h>
 #include "stack.h"
-#include "decodc.h"
+
+// inicializa e retorna ponteiro alocado
 
 stack *initStack(void){
     stack *aux = (stack *) malloc(sizeof(stack));
     aux->top   = NULL;
     return aux;
 }
+
+// add no topo da pilha
+
 void  pushStack(stack *pilha, recall *new_data){
   cell *aux  = (cell *) malloc(sizeof(cell));
   aux->data  = new_data;
@@ -14,6 +17,9 @@ void  pushStack(stack *pilha, recall *new_data){
   pilha->top = aux;
   return;
 }
+
+// remove do topo da pilha e retorna ponteiro da estrutura dos dados
+
 recall *popStack(stack *pilha){
     if(!pilha){
         return NULL;
