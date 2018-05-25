@@ -7,7 +7,7 @@ void decodArgs(int argc,char *argv[]){
     // modo e delimitador setados em modo padrão.
     modo=2;
     strcpy(delim_cabecote,"()");
-
+    // setando os delimitadores do cabeçote
     for(int i=1;i<argc;i++){
       if (strcmp(argv[i],"-head")==0){
         delim_cabecote[0] = argv[i+1][0];
@@ -18,13 +18,13 @@ void decodArgs(int argc,char *argv[]){
       if(argv[i][0]=='-'){
               switch (argv[i][1]) {
                 case 'r':
-                    modo   = 1;
+                    modo   = 1; // tipo -r
                   break;
                 case 'v':
-                    modo   = 2;
+                    modo   = 2; // tipo -v
                   break;
                 case 's':
-                    modo   = 3;
+                    modo   = 3; // tipo -s
                     if(argc >= (i+1)){
                       n_step = atoi(argv[i+1]);
                       step_arg = n_step;

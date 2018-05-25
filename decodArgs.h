@@ -15,8 +15,8 @@ typedef enum{
 
 type_mod modo; // variavel GLOBAL de controle de PARAMETRO
 
-unsigned int n_step;   // variavel de controle para entrada do tipo -S (numero de passos)
-unsigned int step_arg;
+unsigned int n_step;      // variavel de controle para entrada do tipo -S (numero de passos)
+unsigned int step_arg;   //  varial de controle para novas entradas do tipo -s
 char delim_cabecote[3];  // delimitador do cabeçote entrada -h
 
 #endif
