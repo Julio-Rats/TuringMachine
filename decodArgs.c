@@ -12,6 +12,7 @@ void decodArgs(int argc,char *argv[]){
       if (strcmp(argv[i],"-head")==0){
         delim_cabecote[0] = argv[i+1][0];
         delim_cabecote[1] = argv[i+1][strlen(argv[i+1])-1];
+        delim_cabecote[2] = '\0';
         continue;
       }
       if(argv[i][0]=='-'){
@@ -26,6 +27,11 @@ void decodArgs(int argc,char *argv[]){
                     modo   = 3;
                     if(argc >= (i+1)){
                       n_step = atoi(argv[i+1]);
+                      step_arg = n_step;
+                      if (n_step == 0){
+                        printf("\nERRO PARAMETRO %s VALOR \"N\" NÃO INFORMADO OU IGUAL A ZERO\n\n", argv[i]);
+                        exit(1);
+                      }
                     }else{n_step = 1;}
                   break;
                 default:

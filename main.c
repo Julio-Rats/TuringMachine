@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "exec.h"
+#include "trim.h"
 #include "decodArgs.h"
 #include "decodc.h"
 
@@ -9,10 +10,12 @@ void interface();
 
 int main(int argc, char *argv[]){
   if(argc < 3){
-      printf("\nError: Falta de parametros, exemplo\n\n\t%s <Opçõees> <Fonte(Programa)>\n\n",argv[0]);
-      printf("Opções: < -r > Modo execucao silenciosa\n\t");
+      system("clear");
+      printf("Error: Falta de parametro, exemplo\n\n\t%s <Opções> <Fonte(Programa)>\n\n",argv[0]);
+      printf("Opções: < -r > Modo execuçao silenciosa\n\t");
       printf("< -v > Modo debug, passo a passo\n\t");
-      printf("< -s n > n computações com parada para uma nova entrada de modo\n\n");
+      printf("< -s n > n computações com parada para uma nova entrada de modo\n\t");
+      printf("[ -head \"xx\"] marcadores do cabeçote na impressão da fita\n\n");
       printf("Fonte(Progama): Entrada com arquivo.MT com codigo de execução\n\n");
       exit(1);
   }
@@ -20,7 +23,7 @@ int main(int argc, char *argv[]){
   if(!(file=fopen(argv[argc-1],"r"))){
       fprintf(stderr, "\nERRO: ao abrir arquivo\n\n", argv[argc-1]);
       exit(1);
-  }
+    }
   cabecote = 0;
   decodArgs(argc, argv);
   interface();

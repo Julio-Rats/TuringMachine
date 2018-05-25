@@ -47,6 +47,7 @@ back:
        strtok(aux," ");
        if(strcmp(aux,"fim")==0){
             strtok(estado_atual,"\n");
+            modo = 2;
             print(0);
             printf("\nERROR TRANSIÇÃO BLOCO %s ESTADO %s COM %c NÃO DEFINIDA\n",bloco_atual,estado_atual, fita[cabecote]);
             para();
@@ -74,7 +75,6 @@ back:
    }
 }
 void para(void){
-      //system("clear");
       printf("MT ENCERROU\n\n");
       exit(0);
 }
@@ -100,6 +100,14 @@ void execinstr(char *line, FILE *arq){
               cabecote++;
             }
           }
+          if (cabecote<0){
+              char aux;
+              for(int i=strlen(fita)-2;i>=0;i--){
+                  fita[i+1] = fita[i];
+              }
+              fita[0] = '_';
+              cabecote = 0;
+          }
           break;
       case 5:
           if (strcmp(line,"pare")==0){
@@ -114,6 +122,9 @@ void execinstr(char *line, FILE *arq){
                 strcpy(bloco_atual,(char*)retorno->recall_bloco);
                 n_bloco_atual      =  retorno->n_bloco;
                 strcpy(novo_estado, retorno->recall_state);
+                if (strcmp(novo_estado,"pare")==0){
+                    fin = 1;
+                }
 
             }else{
                   strcpy(novo_estado, line);
@@ -159,7 +170,7 @@ void execblock(char *line, FILE *arq){
 }
 
 void print(int fin){
-    static int step=1;
+    static int step=0;
     step++;
     int dots;
     int fitantes,fitapos;
@@ -167,7 +178,7 @@ void print(int fin){
     int flagvaziapos=1;
     char fitaprint[46];
     char ponts[17];
-    if (((modo == 2) || ((step > n_step)&&(modo==3))) && (modo != 1)) {
+    if (modo != 1) {
           dots = 16 - strlen(bloco_atual);
           fitantes = 20 - cabecote;
           fitapos  = cabecote + 20 - strlen(fita);
@@ -212,13 +223,47 @@ void print(int fin){
           memset(ponts,'.',dots);
           ponts[dots]='\0';
           printf("%s%s.%04d:%s\n",ponts,bloco_atual ,atoi(estado_atual),fitaprint);
+          if ((n_step <= step)&&(modo==3)){
+              char op[3];
+              int n_temp=-1;
+              printf("\nForneça opção (-r,-v,-s ou -n (None)): ");
+              scanf("%s", op);
+              if (strlen(op)>1)
+                  switch (op[1]) {
+                    case 'r':
+                          modo = 1;
+                      break;
+                    case 'v':
+                          modo = 2;
+                      break;
+                    case 's':
+                          printf("Digite o numeros de passos: ");
+                          scanf("%d", &n_temp);
+                          while(n_temp <=0 ){
+                            printf("Digite um numero maior que zero: ");
+                            scanf("%d", &n_temp);
+                          }
+                          n_step = step + n_temp;
+                          step_arg = n_temp;
+                      break;
+                    case 'n':
+                          n_step += step_arg ;
+                      break;
+                    default:
+                          n_step += step_arg ;
+                      break;
+                  }else{
+                          n_step += step_arg ;
+                  }
+                  printf("\n");
+          }
     }
     if (fin){
       if (modo==1){
           modo=2;
-          print(0);
-          printf("\n" );
+          print(1);
        }
+       printf("\n" );
        para();
      }
 }

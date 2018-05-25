@@ -1,24 +1,6 @@
-;teste
- ;;  muito testes lkkkkk
- bloco main 5
-  sdas ; dasdas
- 6 * -- x e pare
- 3 a -- C d 4
- 4 * -- * e pare
- 1 a -- C d 2
- 2 a -- M d 3
- 5  new 1 a
+bloco main 1
+  1 * -- * e 2
+  2 * -- H e 3
+  3 * -- D e 4
+  4 * -- * e pare
 fim
- bloco new 1
- 2 b -- e d pare
- 2 a -- A d retorne
- 1 b -- J d retorne
- fim
-
-
- bloco nomebemgrande 1
- 2 b -- e d pare
- 2 a -- A d retorne
- 1 a -- J d retorne
- fim
-ola
