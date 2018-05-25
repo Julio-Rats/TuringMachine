@@ -3,22 +3,24 @@
 #include <stdlib.h>
 #include "decodc.h"
 
-typedef struct cell cell; //
+typedef struct cell   cell;
+typedef struct recall recall;
+typedef struct stack  stack;
 
-typedef struct {
+struct stack{
     cell *top;
-}stack;    // estrutura da pilha, sempre aponta pro topo
+};    // estrutura da pilha, sempre aponta pro topo
 
 struct cell{
   recall *data;
   cell  *bot;
 };        // estrutura a ser alocado na pilha
 
-typedef struct{
+struct recall{
     char  recall_bloco[17];
     int   n_bloco;
     char  recall_state[5];
-}recall;  // estrutura dos dados alocados na pilha
+};  // estrutura dos dados alocados na pilha
 
 
 stack *initStack(void);   // inicializa pilha
