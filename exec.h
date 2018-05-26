@@ -10,6 +10,7 @@ char  bloco_atual[17];
 char  *simbolo_atual;
 char  fita[tam_fita];
 stack *pilha_blocos;
+int   n_bloco_atual;
 int   cabecote;
 unsigned long seek;
 

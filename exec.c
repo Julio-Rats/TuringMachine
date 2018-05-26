@@ -76,6 +76,7 @@ back:
 }
 void para(void){
       printf("MT ENCERROU\n\n");
+      close(file);
       exit(0);
 }
 void execinstr(char *line, FILE *arq){
