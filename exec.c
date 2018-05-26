@@ -36,6 +36,10 @@ back:
    fgets(line,tam_line,arq);
    while(!feof(arq)){
        n_exec++;
+       if (n_exec >= 500){
+          printf("\nMT PARADA, POSSIVEL LOOP INFINITO\n\n" );
+          para();
+       }
        line = Trim(line);
        if (line[0] == ';'){
          fgets(line,tam_line,arq);
