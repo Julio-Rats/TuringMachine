@@ -36,10 +36,10 @@ back:
    fgets(line,tam_line,arq);
    while(!feof(arq)){
        n_exec++;
-       if (n_exec >= 500){
-          printf("\nMT PARADA, POSSIVEL LOOP INFINITO\n\n" );
-          para();
-       }
+       // if (n_exec >= 500){
+       //    printf("\nMT PARADA, POSSIVEL LOOP INFINITO\n\n" );
+       //    para();
+       // }
        line = Trim(line);
        if (line[0] == ';'){
          fgets(line,tam_line,arq);
@@ -205,9 +205,10 @@ void print(int fin){
               cont+=cabecote+5;
           }else{
              strcpy(fitaprint,"");
-             for (int i=fitantes;i<=cabecote;i++)
+             for (int i=fitantes;i<cabecote;i++)
                 fitaprint[cont++]=fita[i];
-             fitaprint[cabecote]='\0';
+             fitaprint[cont]='\0';
+             cont+=5;
           }
 
           char pont[6];
@@ -219,8 +220,7 @@ void print(int fin){
           pont[5] = '\0';
 
           strcat(fitaprint,pont);
-
-          for (int i=cabecote+1;i<(cabecote+21);i++)
+          for (int i=cabecote+1;i<cabecote+21;i++)
              fitaprint[cont++]=fita[i];
           fitaprint[45]='\0';
 
