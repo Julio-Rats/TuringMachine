@@ -15,7 +15,7 @@ void  pushStack(stack *pilha, recall *new_data){
   aux->data  = new_data;
   aux->bot   = pilha->top;
   pilha->top = aux;
-  return;
+  return ;
 }
 
 // remove do topo da pilha e retorna ponteiro da estrutura dos dados

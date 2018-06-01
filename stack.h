@@ -1,5 +1,6 @@
 #ifndef STACK
 #define  STACK
+
 #include <stdlib.h>
 #include "decodc.h"
 
