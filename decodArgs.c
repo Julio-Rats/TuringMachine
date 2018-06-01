@@ -1,6 +1,3 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "decodArgs.h"
 
 void decodArgs(int argc,char *argv[]){

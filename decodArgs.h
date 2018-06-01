@@ -1,6 +1,10 @@
 #ifndef DECODARGS
 #define  DECODARGS
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 void decodArgs(int argc,char *argv[]);
 
 /*
