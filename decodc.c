@@ -2,8 +2,8 @@
 
 void getBlocos(FILE *arq){
     rewind(arq);
-    char line[tam_line];
     char *ptr;
+    char line[tam_line];
     n_blocos = 0;
     // ler linha a linha ate achar o "bloco"
     while(!feof(arq)){

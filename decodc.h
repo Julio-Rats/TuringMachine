@@ -1,9 +1,11 @@
 #ifndef DECODC
 #define  DECODC
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "trim.h"
+
 #define   tam_line 128
 
 /*
