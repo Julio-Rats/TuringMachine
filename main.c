@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "exec.h"
-#include "trim.h"
-#include "decodArgs.h"
-#include "decodc.h"
+#include "main.h"
 
 void interface();
 
@@ -21,7 +15,7 @@ int main(int argc, char *argv[]){
   }
   FILE *file;
   if(!(file=fopen(argv[argc-1],"r"))){
-      fprintf(stderr, "\nERRO: ao abrir arquivo\n\n", argv[argc-1]);
+      fprintf(stderr, "\nERRO: ao abrir arquivo %s\n\n", argv[argc-1]);
       exit(1);
     }
   cabecote = 0;
