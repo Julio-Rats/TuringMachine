@@ -1,7 +1,14 @@
-; Detector de palindromos
+  ;   Detector de palindromos
 bloco main 01
-	01 a -- A i 10
-	01 b -- B i 20
+
+
+	01	 a	 --	 A 			 i  		10
+
+
+
+	01	 b	 --	 B 	i 	  20
+
+
 	10 moveFim 11
 	20 moveFim 21
 	; leu a
@@ -59,8 +66,8 @@ bloco sim 01
 	02 * -- * d 03
 	03 * -- _ d 04
 	04 * -- S d 05
-	05 * -- I d 06
-	06 * -- M d retorne
+	05 * -- I d 08
+	08 * -- M d retorne
 fim ; sim
 
 ; palavra nao eh palindromo

@@ -2,7 +2,6 @@
 #define  STACK
 
 #include <stdlib.h>
-#include "decodc.h"
 
 typedef struct cell   cell;
 typedef struct recall recall;
