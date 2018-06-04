@@ -1,5 +1,7 @@
-  ;   Detector de palindromos
-bloco main 01
+    ;    Detector de palindromos
+
+            
+          bloco main 01
 
 
 	01	 a	 --	 A 			 i  		10

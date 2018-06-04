@@ -8,9 +8,8 @@ void getBlocos(FILE *arq){
     // ler linha a linha ate achar o "bloco"
     while(!feof(arq)){
         fgets(line,sizeof(line),arq);
-        ptr = strtok(line,"\t");
-        strtok(ptr,";");
-        strtok(ptr," ");
+        ptr = strtok(line,";\t");
+        ptr = strtok(ptr," \t");
         if (line[0] == ';'){ptr=NULL;}
         while(ptr){
               if (strcmp(ptr,"bloco")==0){
