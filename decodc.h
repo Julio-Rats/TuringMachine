@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define   tam_line 128 // Tamanho de leitura no aquivo.
+#define   tam_line 128  // Tamanho de leitura no aquivo.
 
 /*
   bloco : Estrutura com nome do bloco, o estado inicial,
