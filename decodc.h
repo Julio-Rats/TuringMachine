@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define   tam_line 128
+#define   tam_line 128 // Tamanho de leitura no aquivo.
 
 /*
   bloco : Estrutura com nome do bloco, o estado inicial,
@@ -13,21 +13,29 @@
 */
 
 typedef struct{
-    char name[17];
-    char initState[5];
-    unsigned long position_file;
+    char name[17];               // Nome do bloco declarado.
+    char initState[5];           // Estado inicial do bloco.
+    unsigned long position_file;  // posição do bloco no arquivo.
 }bloco;
 
 /*
-  blocos: nome dado ao vetor com todos os blocos encontrados no arquivo;
-  n_blocos: numero de elementos no vetor blocos.
+  blocos:   Nome dado ao vetor com todos os blocos encontrados no arquivo.
+  n_blocos: Indicador do tamanho do vetor blocos, com struct bloco.
+  cont:     Indicador do tamanho do vetor de saida da função decodline.
 */
 
 bloco *blocos;
 int   n_blocos;
+int   cont;
 
-// funçao que pega todos os blocos no arquivo.
+/* Função getBlocos: pega todos os blocos no arquivo, salvando em uma lista
+      com nome, posição no arquivo e estado inicial do bloco de intstrução.
+
+   Função decodline: pega uma linha como entrada e quebra em
+          tokens e retorna um vetor de strings com os tonkes.
+*/
+
 void getBlocos(FILE *arq);
-
+char **decodline(char *line);
 
 #endif
