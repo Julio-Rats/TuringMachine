@@ -1,5 +1,7 @@
 #include "exec.h"
 
+FILE *file;
+
 void setseekbloco(FILE *arq, char*name_bloco){
   strcpy(bloco_atual,name_bloco);
   for(int i=0;i<n_blocos;i++)
@@ -10,7 +12,7 @@ void setseekbloco(FILE *arq, char*name_bloco){
         return;
     }
     printf("\nErro bloco não encontrado %s\n\n", name_bloco);
-    para();
+    para(arq);
 }
 
 void exec(FILE *arq){
@@ -19,36 +21,37 @@ void exec(FILE *arq){
    short type_cod;  //0 inst 1 block
    cabecote = 0;
    seek=0;
-   setseekbloco(arq, "main");
+   char **vetoken = NULL;
    char *line=(char*)malloc(sizeof(char)*tam_line);
-   char **vetoken;
 
+   setseekbloco(arq, "main");
    fseek(arq,seek,SEEK_SET);
-back:
-   fgets(line,tam_line,arq);
+
+   fgets(line,tam_line-1,arq);
    while(!feof(arq)){
-       vetoken=NULL;
        if (n_exec >= 500){
           printf("\nMT PARADA, POSSIVEL LOOP INFINITO\n\n" );
-          para();
+          para(arq);
        }
-       line    = Trim(line);
+
        if (line[0] == ';'){
-         fgets(line,tam_line,arq);
+         fgets(line,tam_line-1,arq);
          continue;
        }
+
        vetoken = decodline(line);
-       if (strcmp(vetoken[0],"-1")==0){
-         fgets(line,tam_line,arq);
-         continue;
+
+       if (!vetoken){
+          fgets(line,tam_line-1,arq);
+          continue;
        }
 
        if(strcmp(vetoken[0],"fim")==0){
             strtok(estado_atual,"\n");
             modo = 2;
-            print(0);
+            print(0, arq);
             printf("\nERROR TRANSIÇÃO BLOCO %s ESTADO %s COM %c NÃO DEFINIDA\n",bloco_atual, estado_atual, fita[cabecote]);
-            para();
+            para(arq);
        }
 
        if(atoi(vetoken[0]) == atoi(estado_atual)){
@@ -63,18 +66,23 @@ back:
             if ((type_cod == 0) && ((strcmp(simb_fita, vetoken[1])==0) || (strcmp(vetoken[1],"*")==0))) {
                 n_exec++;
                 execinstr(vetoken, arq);
-                goto back;
-            }if (type_cod == 1){
-                execblock(vetoken, arq);
-                goto back;
+            }else{
+                if (type_cod == 1){
+                  execblock(vetoken, arq);
+                }
             }
        }
-      fgets(line,128,arq);
+       if (vetoken){
+          free(vetoken);
+          vetoken = NULL;
+      }
+      fgets(line,tam_line-1,arq);
    }
 }
-void para(void){
+void para(FILE *arq){
       printf("MT ENCERROU\n\n");
-      exit(0);
+      fclose(arq);
+      exit(EXIT_SUCCESS);
 }
 void execinstr(char **vetline, FILE *arq){
 
@@ -109,11 +117,12 @@ void execinstr(char **vetline, FILE *arq){
           recall *retorno = popStack(pilha_blocos);
           if (!retorno){
                   printf("\nErro de retorno de bloco\n");
-                  para();
+                  para(arq);
           }
           strcpy(bloco_atual,(char*)retorno->recall_bloco);
           n_bloco_atual =  retorno->n_bloco;
           strcpy(novo_estado, retorno->recall_state);
+          strcpy(estado_atual,novo_estado);
           if (strcmp(novo_estado,"pare")==0){
               fin = 1;
           }
@@ -127,15 +136,15 @@ void execinstr(char **vetline, FILE *arq){
       if (strcmp("!",vetline[6])==0){
         modo = 2;
       }
-      
-    print(fin);
+    if (strcmp(vetline[5],"retorne")!=0)
+          print(fin, arq);
     setseekbloco(arq, bloco_atual);
     strcpy(estado_atual,novo_estado);
     fseek(arq,seek,SEEK_SET);
 }
 void execblock(char **vetline, FILE *arq){
 
-    print(0);
+    print(0, arq);
     char novo_bloco[17];
     strcpy(novo_bloco, vetline[1]);
     char estado_retorno[5];
@@ -147,7 +156,7 @@ void execblock(char **vetline, FILE *arq){
     strcpy(returno->recall_state, estado_retorno);
     pushStack(pilha_blocos, returno);
     setseekbloco(arq, novo_bloco);
-    print(0);
+    print(0, arq);
     fseek(arq,seek,SEEK_SET);
 
     if (cont > 3)
@@ -156,7 +165,7 @@ void execblock(char **vetline, FILE *arq){
       }
 }
 
-void print(int fin){
+void print(int fin, FILE *arq){
     static int step=0;
     step++;
     int dots;
@@ -251,41 +260,9 @@ void print(int fin){
     if (fin){
       if (modo==1){
           modo=2;
-          print(1);
+          print(1, arq);
        }
        printf("\n" );
-       para();
+       para(arq);
      }
-}
-
-char **decodline(char *line){
-    char **vetoken=NULL;
-    char **teste=(char**)malloc(sizeof(char*));
-    char *token=NULL;
-    cont=0;
-    token =  strtok(line,";\n");
-    token =  strtok(token," \t");
-    while (token) {
-      cont++;
-      if(cont==1){
-          vetoken = (char**)malloc(sizeof(char*));
-          vetoken[cont-1] = token;
-      }else{
-          if (cont == 2){
-            memcpy(teste, vetoken, sizeof(char*));
-            free(vetoken);
-          }
-          teste = realloc(teste,(cont)*sizeof(char*));
-          teste[cont-1] = token;
-      }
-      token = strtok(NULL," \t");
-    }
-    if(cont == 0){
-      teste[0]=malloc(sizeof(char)*2);
-      strcpy(teste[0],"-1");
-    }
-    if (cont == 1){
-      return vetoken;
-    }
-    return teste;
 }

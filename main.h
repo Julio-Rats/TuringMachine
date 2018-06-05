@@ -5,8 +5,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include "exec.h"
-#include "trim.h"
 #include "decodArgs.h"
 #include "decodc.h"
+
+void interface();
+void erroArgs(char *exec_name);
 
 #endif
