@@ -1,6 +1,0 @@
-bloco main 1
-  1 * -- * e 2
-  2 * -- H e 3
-  3 * -- D e 4
-  4 * -- * e pare
-fim
