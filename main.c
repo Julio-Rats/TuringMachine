@@ -11,11 +11,10 @@ int main(int argc, char *argv[]){
       exit(EXIT_FAILURE);
   }
 
-  cabecote = 0;
-  memset(fita,'_',tam_fita);
   decodArgs(argc, argv);
-  interface();
   getBlocos(file);
+  memset(fita,'_',tam_fita);
+  interface();
   exec(file);
 
   return 0;
@@ -27,7 +26,7 @@ void interface(){
   system("clear");
   printf("Simulador de Máquina de Turing ver. 1.0\nDesenvolvido como trabalho prático para ");
   printf("a disciplina de Teoria da Computação\n" );
-  printf("Autores: Julio Cesar M.C. e Renato Borges B.\tIFMG 2018.\n\nForneça a palavra inicial: ");
+  printf("Autores: Júlio César M.C. e Renato Borges B.\tIFMG 2018.\n\nForneça a palavra inicial: ");
   scanf("%s", input);
   printf("\n");
   strncpy(fita,input,strlen(input));

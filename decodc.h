@@ -35,7 +35,7 @@ int   cont;
           tokens e retorna um vetor de strings com os tonkes.
 */
 
-void getBlocos(FILE *arq);
 char **decodline(char *line);
+void getBlocos(FILE *arq);
 
 #endif

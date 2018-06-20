@@ -1,5 +1,6 @@
 #include "decodArgs.h"
 
+
 void decodArgs(int argc,char *argv[]){
     modo=2;        // Modo setado em modo padrão .
     n_step   = 1;  // Numero padrão paramentro -s.

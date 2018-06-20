@@ -17,9 +17,9 @@ struct cell{
 };         // Estrutura a ser empilhada na pilha.
 
 struct recall{
-    char  recall_bloco[17];
-    int   n_bloco;
+    char  recall_bloco[17];  // Nome do bloco.
     char  recall_state[5];
+    char  final_state[6];
 };         // Estrutura dos dados alocados na celula.
 
 stack *initStack(void);           // Inicializa pilha

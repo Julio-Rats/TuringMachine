@@ -5,6 +5,7 @@ void getBlocos(FILE *arq){
     char **vetline;       // Saida da função decodline.
     char line[tam_line];  // Vetor de char, pra leitura do arquivo.
     n_blocos = 0;         // Tamanho do vetor blocos.
+    short int flag_fim = 0;
 
     // Faz leitura no aquivo, ate "\n ou \0", ou tamanho passado parametro.
     fgets(line,sizeof(line)-1,arq);
@@ -21,14 +22,22 @@ void getBlocos(FILE *arq){
           continue;
         }
         // Verifica se a linha é uma declaração de um bloco.
+        if ((strcmp(vetline[0],"bloco")==0)&&flag_fim){
+          fprintf(stderr, "\nERROR SINTAXE BLOCOS, BLOCO '%s'\n\n", blocos[n_blocos-1].name);
+          fclose(arq);
+          exit(EXIT_FAILURE);
+        }
         if (strcmp(vetline[0],"bloco")==0){
               // Tramento de erro sintaxe.
+              flag_fim = 1;
               if (cont < 2){
-                  fprintf(stderr, "ERROR SINTAXE BLOCOS\n\n");
+                  fprintf(stderr, "\nERROR SINTAXE BLOCOS\n\n");
+                  fclose(arq);
                   exit(EXIT_FAILURE);
               }else{
                   if (cont < 3){
-                    fprintf(stderr, "ERROR SINTAXE BLOCOS, BLOCO %s\n\n", vetline[1]);
+                    fprintf(stderr, "\nERROR SINTAXE BLOCOS, BLOCO '%s'\n\n", vetline[1]);
+                    fclose(arq);
                     exit(EXIT_FAILURE);
                   }
               }
@@ -43,8 +52,16 @@ void getBlocos(FILE *arq){
               blocos[n_blocos-1].position_file = ftell(arq); // posição no arquivo.
               strcpy(blocos[n_blocos-1].initState, vetline[2]);
         }
+        if (strcmp(vetline[0],"fim")==0){
+          flag_fim = 0;
+        }
         // Refaz a leitura para o loop.
         fgets(line,sizeof(line)-1,arq);
+    }
+    if (flag_fim){
+      fprintf(stderr, "\nERROR SINTAXE BLOCOS, BLOCO '%s'\n\n", blocos[n_blocos-1].name);
+      fclose(arq);
+      exit(EXIT_FAILURE);
     }
 }
 

@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /*
     Enum para definir qual PARAMETRO de impressão a MT executara.
 */
