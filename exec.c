@@ -39,7 +39,7 @@ void exec(FILE *arq){
    fgets(line,tam_line-1,arq);  // Leitura de uma linha do arq.
    while(!feof(arq)){
 
-       if (n_exec >= 1000){     // Verifica quant de interações, tratar loops.
+       if (n_exec >= 500){     // Verifica quant de interações, tratar loops.
           if (modo == 1){     //  Verifica se esta no modo de não impressão.
               modo = 2;      //   Seta para imprimir.
               print(0,arq); //    Chama função para imprimir
@@ -214,7 +214,7 @@ void execblock(char **vetline, FILE *arq){
     if (strcmp(vetline[2],"pare") == 0){
          strcpy(retorno->final_state, estado_atual);   //  Seta na strtc estado de retorno.
     }
-    strcpy(retorno->recall_state, vetline[2]);        //  Seta na strtc estado de retorno.
+    strcpy(retorno->recall_state, vetline[2]);       //   Seta na strtc estado de retorno.
     pushStack(pilha_blocos, retorno);               //    Empilha esse bloco na ED pilha.
     setseekbloco(arq, vetline[1]);                 //     Seta variaveis de controle.
     print(0, arq);                                //      Imprime execução.
