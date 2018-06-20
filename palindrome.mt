@@ -1,19 +1,9 @@
-    ;    Detector de palindromos
-
-            
-          bloco main 01
-
-
-	01	 a	 --	 A 			 i  		10
-
-
-
-	01	 b	 --	 B 	i 	  20
-
-
+bloco main 01
+  01	a -- A i 10
+	01 b --	B i 20
 	10 moveFim 11
 	20 moveFim 21
-	; leu a
+	   ;    leu a
 	11 iniEsq 12
 	12 a -- A i 30
 	12 b -- * i 70
@@ -21,7 +11,7 @@
 
 	; leu b
 	21 iniEsq 22
-	22 a -- * i 70
+  22 a -- * i 70
 	22 b -- B i 30
 	22 _ -- * d 60
 
@@ -81,3 +71,4 @@ bloco nao 01
 	05 * -- A d 06
 	06 * -- O d retorne
 fim ; nao
+teste
