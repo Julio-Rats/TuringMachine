@@ -28,7 +28,7 @@ void setseekbloco(FILE *arq, u_int8_t*name_bloco){
 }
 
 void exec(FILE *arq){
-   n_exec = 0;    // Contador de numeros de execução.
+   n_exec = 0;        // Contador de numeros de execução.
    pilha_blocos       = initStack(); // Pilha para chamadas de blocos.
    cabecote           = 0;           // Reset posição do cabeçote sobre a fita.
    u_int8_t** vetoken = NULL;        // Vetor com as tokens das linhas de intstrução.
@@ -42,7 +42,7 @@ void exec(FILE *arq){
    while(!feof(arq)){
 
        if(NO_LOOP)
-           if (n_exec >= 5000){   // Verifica quant de interações, tratar loops.
+           if (n_exec >= 5000){  // Verifica quant de interações, tratar loops.
               if (modo != 2){    // Verifica se esta no modo de não impressão.
                   modo = 2;      // Seta para imprimir.
                   print(0,arq);  // Chama função para imprimir
