@@ -27,13 +27,13 @@ fim ; main
 ; move para ultimo caractere da palavra
 bloco moveFim 01
 	01 _ -- * e retorne
-	01 * -- * d 01
+	01 * -- * d *
 fim ; moveFim
 
 ; move para primeiro caractere da palavra
 bloco moveIni 01
 	01 _ -- * d retorne
-	01 * -- * e 01
+	01 * -- * e *
 fim ; moveIni
 
 ; recua ate caracetere minusculo ou _
@@ -41,7 +41,7 @@ bloco iniEsq 01
 	01 _ -- * i retorne
 	01 a -- * i retorne
 	01 b -- * i retorne
-	01 * -- * e 01
+	01 * -- * e *
 fim ; iniEsq
 
 ; avanca ate caractere minusculu ou _
@@ -49,7 +49,7 @@ bloco iniDir 01
 	01 _ -- * i retorne
 	01 a -- * i retorne
 	01 b -- * i retorne
-	01 * -- * d 01
+	01 * -- * d *
 fim ; iniDir
 
 ; palavra eh palindromo

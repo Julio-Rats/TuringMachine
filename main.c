@@ -26,7 +26,7 @@ void interface(){
   system("clear");
   printf("Simulador de Máquina de Turing ver. 1.0\nDesenvolvido como trabalho prático para ");
   printf("a disciplina de Teoria da Computação\n" );
-  printf("Autores: Júlio César M.C. e Renato Borges B.\tIFMG 2018.\n\nForneça a palavra inicial: ");
+  printf("Autor: Júlio César M.Cândido - IFMG 2018 Campus Formiga.\n\nForneça a palavra inicial: ");
   scanf("%s", input);
   printf("\n");
   strncpy(fita,input,strlen(input));

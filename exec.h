@@ -8,7 +8,7 @@
 #include "decodArgs.h"
 #include "stack.h"
 
-static u_int16_t n_exec;
+static u_int32_t n_exec;
 
 stack*    pilha_blocos;            //  Pilha para chamada de blocos.
 u_int8_t  estado_atual[TAM_STATE];
