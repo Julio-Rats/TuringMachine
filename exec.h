@@ -8,21 +8,21 @@
 #include "decodArgs.h"
 #include "stack.h"
 
-#define   tam_fita  1024   // Tamanho da fita da MT.
-#define   tam_line 128   //  Tamanho da linha maxima de leitura no arquivo.
+static u_int16_t n_exec;
 
-char  estado_atual[5],novo_estado[5];  // Estado atual e proximo a ser carrego.
-stack *pilha_blocos;                  //  Pilha para chamada de blocos.
-char  bloco_atual[17];               //   Bloco atual de execução da MT.
-char  simbolo_atual[2];             //    Simbolo atual sobre o cabeçote.
-char  fita[tam_fita];                //     Fita da MT.
-int   cabecote;                   //      Posição do cabeçote na fita da MT.
-unsigned long seek;              //       Semente para andar no arquivo.
+stack*    pilha_blocos;            //  Pilha para chamada de blocos.
+u_int8_t  estado_atual[TAM_STATE];
+u_int8_t  novo_estado[TAM_STATE];  //  Estado atual e proximo a ser carrego.
+u_int8_t  bloco_atual[TAM_BLOCK];  //  Bloco atual de execução da MT.
+u_int8_t  simbolo_atual[2];        //  Simbolo atual sobre o cabeçote.
+u_int8_t  fita[TAM_FITA];          //  Fita da MT.
+int16_t   cabecote;                //  Posição do cabeçote na fita da MT.
+u_int32_t seek;                    //  Semente para andar no arquivo.
 
-void execinstr(char **vetline, FILE *arq);     // Executa intstrução do tipo manipulador de simbolos
-void execblock(char **vetline, FILE *arq);   //   Executa intstrução do tipo chamada de blocos
-void print(int fin, FILE *arq);             //     Printa Status(FITA) na tela.
-void exec(FILE *arq);                    //       Executa todo o algoritimo(arquivo) da MT.
-void para(FILE *arq);                  //         Finaliza a MT.
+void execinstr(u_int8_t** vetline, FILE* arq); // Executa intstrução do tipo manipulador de simbolos
+void execblock(u_int8_t** vetline, FILE* arq); // Executa intstrução do tipo chamada de blocos
+void print(int16_t fin, FILE* arq);            // Printa Status(FITA) na tela.
+void exec(FILE *arq);                          // Executa todo o algoritimo(arquivo) da MT.
+void para(FILE *arq);        // Finaliza a MT.
 
 #endif

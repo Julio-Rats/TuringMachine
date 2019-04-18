@@ -5,17 +5,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define   tam_line 128  // Tamanho de leitura no aquivo.
-
+#define   TAM_FITA  5120 // Tamanho da fita da MT.
+#define   TAM_LINE  256  // Tamanho de leitura no aquivo.
+#define   TAM_BLOCK 17
+#define   TAM_STATE 5
 /*
   bloco : Estrutura com nome do bloco, o estado inicial,
           e a inicio do bloco no arquivo.
 */
 
 typedef struct{
-    char name[17];               // Nome do bloco declarado.
-    char initState[5];           // Estado inicial do bloco.
-    unsigned long position_file;  // posição do bloco no arquivo.
+    u_int8_t  name[TAM_BLOCK];       // Nome do bloco declarado.
+    u_int8_t  initState[TAM_STATE]; // Estado inicial do bloco.
+    u_int32_t position_file;        // posição do bloco no arquivo.
 }bloco;
 
 /*
@@ -24,9 +26,9 @@ typedef struct{
   cont:     Indicador do tamanho do vetor de saida da função decodline.
 */
 
-bloco *blocos;
-int   n_blocos;
-int   cont;
+bloco*    blocos;
+u_int16_t n_blocos;
+u_int16_t cont;
 
 /* Função getBlocos: pega todos os blocos no arquivo, salvando em uma lista
       com nome, posição no arquivo e estado inicial do bloco de intstrução.
@@ -35,7 +37,7 @@ int   cont;
           tokens e retorna um vetor de strings com os tonkes.
 */
 
-char **decodline(char *line);
-void getBlocos(FILE *arq);
+u_int8_t** decodline(u_int8_t* line);
+void       getBlocos(FILE *arq);
 
 #endif

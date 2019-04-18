@@ -1,24 +1,24 @@
 #include "decodc.h"
 
 void getBlocos(FILE *arq){
-    rewind(arq);          // Reinicia ponteiro do arquivo.
-    char **vetline;       // Saida da função decodline.
-    char line[tam_line];  // Vetor de char, pra leitura do arquivo.
     n_blocos = 0;         // Tamanho do vetor blocos.
-    short int flag_fim = 0;
+    rewind(arq);          // Reinicia ponteiro do arquivo.
+    u_int8_t** vetline;        // Saida da função decodline.
+    u_int8_t   line[TAM_LINE]; // Vetor de char, pra leitura do arquivo.
+    u_int8_t   flag_fim = 0;
 
     // Faz leitura no aquivo, ate "\n ou \0", ou tamanho passado parametro.
-    fgets(line,sizeof(line)-1,arq);
+    fgets(line,TAM_LINE-1,arq); 
     while(!feof(arq)){
         // Trata comentario com, com ";" no incio da linha.
         if (line[0] == ';'){
-          fgets(line,sizeof(line)-1,arq);
+          fgets(line,TAM_LINE-1,arq);
           continue;
         }
         // Chamada da função quebrando a linha em tokens.
         vetline = decodline(line);
         if (!vetline){
-          fgets(line,sizeof(line)-1,arq);
+          fgets(line,TAM_LINE-1,arq);
           continue;
         }
         // Verifica se a linha é uma declaração de um bloco.
@@ -56,7 +56,7 @@ void getBlocos(FILE *arq){
           flag_fim = 0;
         }
         // Refaz a leitura para o loop.
-        fgets(line,sizeof(line)-1,arq);
+        fgets(line,TAM_LINE-1,arq);
     }
     if (flag_fim){
       fprintf(stderr, "\nERROR SINTAXE BLOCOS, BLOCO '%s'\n\n", blocos[n_blocos-1].name);
@@ -65,10 +65,10 @@ void getBlocos(FILE *arq){
     }
 }
 
-char **decodline(char *line){
-    char **vetoken = NULL;  // Veotor de string de saida.
-    char *token    = NULL;  // String usada para strtok.
-    cont = 0;               // Tamanho do Veotor de string (vetoken).
+u_int8_t** decodline(u_int8_t* line){
+    u_int8_t** vetoken = NULL;  // Veotor de string de saida.
+    u_int8_t*  token   = NULL;  // String usada para strtok.
+    cont = 0;                   // Tamanho do Veotor de string (vetoken).
 
     token =  strtok(line,";\n");  // Trata comentario no meio da linha.
     token =  strtok(token," \t"); // Quebra em tabulação e/ou espaço dos tokens.
@@ -76,9 +76,9 @@ char **decodline(char *line){
     while (token) {
         // Aloca e expande o tamanho do vetor para saida.
         if(!vetoken){
-            vetoken = (char**) malloc((++cont)*sizeof(char*));
+            vetoken = (u_int8_t**) malloc((++cont)*sizeof(u_int8_t*));
         }else{
-            vetoken = (char**) realloc(vetoken,(++cont)*sizeof(char*));
+            vetoken = (u_int8_t**) realloc(vetoken,(++cont)*sizeof(u_int8_t*));
         }
         // Setando o token no vetor.
         vetoken[cont-1] = token;

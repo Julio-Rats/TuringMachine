@@ -1,6 +1,6 @@
 #include "main.h"
 
-int main(int argc, char *argv[]){
+int main(u_int8_t argc, u_int8_t* argv[]){
   if(argc < 3){
       erroArgs(argv[0]);
   }
@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
 
   decodArgs(argc, argv);
   getBlocos(file);
-  memset(fita,'_',tam_fita);
+  memset(fita,'_',TAM_LINE);
   interface();
   exec(file);
 
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
 }
 
 void interface(){
-  char input[1023];
+  u_int8_t input[TAM_INPUT];
   system("clear");
   printf("Simulador de Máquina de Turing ver. 1.0\nDesenvolvido como trabalho prático para ");
   printf("a disciplina de Teoria da Computação\n" );
@@ -32,7 +32,7 @@ void interface(){
   strncpy(fita,input,strlen(input));
 }
 
-void erroArgs(char *exec_name){
+void erroArgs(u_int8_t* exec_name){
   system("clear");
   printf("Error: Falta de parametro, exemplo:\n\n\t%s <Opções> <Fonte(Programa)>\n\n", exec_name);
   printf("Opções: < -r > Modo execuçao silenciosa\n\t");

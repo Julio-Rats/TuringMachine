@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "decodArgs.h"
-#include "decodc.h"
 #include "exec.h"
 
+#define TAM_INPUT 1024
+
 void interface();
-void erroArgs(char *exec_name);
+void erroArgs(u_int8_t* exec_name);
 
 #endif
