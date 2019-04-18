@@ -1,9 +1,24 @@
-all:sim
-sim: comp_h comp_c
-		gcc *.o -o simturing
-		rm *.o
-		rm *.gch
-comp_c:
-		gcc -c *.c
-comp_h:
-		gcc -c *.h
+CC=gcc
+CFLAGS=-O3 -W
+TARGET=simturing
+HDR=$(wildcard *.h)
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
+
+all: $(TARGET) clean
+# regras para gerar o executavel
+$(TARGET) : $(HDR) $(OBJ)
+	$(CC) -o $@ $(OBJ) $(CFLAGS)
+
+# regras de compilação
+.c.o:
+	$(CC) -c $(SRC) $(CFLAGS)
+
+.h:
+	$(CC) -c $(HDR) $(CFLAGS)
+
+clean:
+	rm -rf $(OBJ) *.gch
+
+clear:
+	rm -rf $(TARGET)
