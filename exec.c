@@ -184,7 +184,11 @@ void execinstr(u_int8_t** vetline, FILE* arq) {
           }
       }else{
               // Caso não seja um retorno seta o novo estado.
-              strcpy(novo_estado, vetline[5]);
+              if (strcmp(vetline[5],"*")==0){
+                  strcpy(novo_estado, estado_atual);
+              }else{
+                strcpy(novo_estado, vetline[5]);
+              }
            }
       }
     // Tratar o comando "!".
