@@ -4,21 +4,22 @@ TARGET=simturing
 HDR=$(wildcard *.h)
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
+HDRC=$(HDR:.h=.h.gch)
 
 all: $(TARGET) clean
 # regras para gerar o executavel
-$(TARGET) : $(HDR) $(OBJ)
+$(TARGET) : .h .c
 	$(CC) -o $@ $(OBJ) $(CFLAGS)
 
 # regras de compilação
-.c.o:
+.c:
 	$(CC) -c $(SRC) $(CFLAGS)
 
 .h:
 	$(CC) -c $(HDR) $(CFLAGS)
 
 clean:
-	rm -rf $(OBJ) *.gch
+	rm -rf $(OBJ) $(HDRC)
 
 clear:
 	rm -rf $(TARGET)
