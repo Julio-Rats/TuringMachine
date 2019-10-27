@@ -1,6 +1,7 @@
 bloco main 01
-  01	a -- A i 10
-	01 b --	B i 20
+
+	01 a -- A i 10
+	01 b -- B i 20
 	10 moveFim 11
 	20 moveFim 21
 	   ;    leu a
@@ -11,7 +12,7 @@ bloco main 01
 
 	; leu b
 	21 iniEsq 22
-  22 a -- * i 70
+    	22 a -- * i 70
 	22 b -- B i 30
 	22 _ -- * d 60
 
@@ -22,6 +23,7 @@ bloco main 01
 
 	60 sim pare
 	70 nao pare
+
 fim ; main
 
 ; move para ultimo caractere da palavra
