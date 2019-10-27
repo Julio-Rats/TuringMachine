@@ -9,17 +9,18 @@
     Enum para definir qual PARAMETRO de impressão a MT executara.
 */
 
-typedef enum{
+typedef enum
+{
     type_r=1,  //  Tipo silencioso
     type_v,    //  Tipo "verboso"
     type_s     //  Tipo n step para e pega novo modo
 }type_mod;
 
-type_mod modo;  // Variavel GLOBAL de controle de PARAMETRO
+type_mod  modo;  // Variavel GLOBAL de controle de PARAMETRO
 
-u_int16_t n_step;           // variavel de controle para entrada do tipo -S (numero de passos)
-u_int16_t step_arg;         // Varial de controle para novas entradas do tipo -s
-u_int8_t delim_cabecote[3]; // Delimitador do cabeçote entrada -h
+u_int64_t n_step;            // variavel de controle para entrada do tipo -S (numero de passos)
+u_int32_t step_arg;          // Varial de controle para novas entradas do tipo -s
+u_int8_t  delim_cabecote[3]; // Delimitador do cabeçote entrada -h
 
 // Lê os paramentros e decodifica.
 

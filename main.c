@@ -1,23 +1,25 @@
 #include "main.h"
 
-int main(u_int8_t argc, u_int8_t* argv[]){
-  if(argc < 3){
-      erroArgs(argv[0]);
-  }
+int main(u_int8_t argc, u_int8_t* argv[])
+{
+    if(argc < 3)
+        erroArgs(argv[0]);
 
-  FILE *file;
-  if (!(file = fopen(argv[argc-1],"r"))){
-      fprintf(stderr, "\nERROR AO TENTAR ABRIR O ARQUIVO %s\n\n", argv[argc-1]);
-      exit(EXIT_FAILURE);
-  }
+    FILE *file;
+    if (!(file = fopen(argv[argc-1],"r")))
+    {
+        fprintf(stderr, "\nERROR AO TENTAR ABRIR O ARQUIVO %s\n\n", argv[argc-1]);
+        exit(EXIT_FAILURE);
+    }
 
-  decodArgs(argc, argv);
-  getBlocos(file);
-  memset(fita,'_',TAM_LINE);
-  interface();
-  exec(file);
+    decodArgs(argc, argv);
+    getBlocos(file);
 
-  return 0;
+    memset(fita,'_',TAM_LINE);
+    interface();
+    exec(file);
+
+    return 0;
 
 }
 
