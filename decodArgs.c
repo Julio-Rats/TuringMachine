@@ -24,7 +24,7 @@ void decodArgs(u_int8_t argc,u_int8_t* argv[])
               if (argc >= (i+1))
               {
                   // Pegando e tratando paramentro -s
-                  n_step = atoi(argv[i+1]);
+                  n_step   = atol(argv[i+1]);
                   step_arg = n_step;
                   if (n_step == 0)
                   {

@@ -8,7 +8,7 @@
         variaveis de um bloco:
                 name          : Nome do bloco.
                 initState     : Posição no arquivo onde inicia o bloco.
-                position_file  : Numero da fila do bloco sendo executando.
+                position_file : Numero da fila do bloco sendo executando.
                 ================> variaveis de controle da MT <==============
                 name_bloco    : Nome do bloco a ser executado.
                 estado_atual  : Estado atual na MT.
@@ -45,7 +45,7 @@ void exec(FILE *arq)
    while(!feof(arq)){
 
        if(NO_LOOP)
-           if (n_exec >= 500000)// Verifica quant de interações, tratar loops.
+           if (n_exec >= 50000)// Verifica quant de interações, tratar loops.
            {
               if (modo != 3)
               {
@@ -349,11 +349,11 @@ void print(int16_t fin, FILE* arq)
                       break;
                     case 's':
                           printf("Digite o numeros de passos: ");
-                          scanf("%d", &n_temp);
+                          scanf("%ld", &n_temp);
                           while(n_temp <=0 )
                           {
                               printf("Digite um numero maior que zero: ");
-                              scanf("%d", &n_temp);
+                              scanf("%ld", &n_temp);
                           }
                           n_step = step + n_temp;
                           step_arg = n_temp;

@@ -19,7 +19,7 @@ typedef enum
 type_mod  modo;  // Variavel GLOBAL de controle de PARAMETRO
 
 u_int64_t n_step;            // variavel de controle para entrada do tipo -S (numero de passos)
-u_int32_t step_arg;          // Varial de controle para novas entradas do tipo -s
+u_int64_t step_arg;          // Varial de controle para novas entradas do tipo -s
 u_int8_t  delim_cabecote[3]; // Delimitador do cabeçote entrada -h
 
 // Lê os paramentros e decodifica.
