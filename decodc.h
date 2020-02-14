@@ -1,12 +1,12 @@
-#ifndef DECODC
+#ifndef  DECODC
 #define  DECODC
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define   TAM_FITA  5120 // Tamanho da fita da MT.
-#define   TAM_LINE  256  // Tamanho de leitura no aquivo.
+#define   TAM_FITA  1048576 // Tamanho da fita da MT.
+#define   TAM_LINE  256     // Tamanho de leitura no aquivo.
 #define   TAM_BLOCK 17
 #define   TAM_STATE 5
 /*
