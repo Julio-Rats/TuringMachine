@@ -1,5 +1,5 @@
 ;
-; Expressão definida por a^(N)c^(2N)c^(3N)
+; Expressão definida por a^(N)b^(2N)c^(3N)
 ;
 bloco main 0
 	0 _ -- * i 11
