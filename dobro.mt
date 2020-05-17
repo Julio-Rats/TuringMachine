@@ -35,7 +35,8 @@ bloco error 1
 	4 * -- A d 5
 	5 * -- O d 6
 	6 * -- _ d 7
-	7 write_aceita retorne
+	7 write_aceita 8
+	8 * -- * i retorne
 fim
 
 bloco aceita 1
@@ -44,7 +45,8 @@ bloco aceita 1
 	4 * -- I d 5
 	5 * -- M d 6
 	6 * -- _ d 7
-	7 write_aceita retorne
+	7 write_aceita 8
+	8 * -- * i retorne
 fim
 
 bloco apaga_fita 1

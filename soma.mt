@@ -117,7 +117,8 @@ bloco error 1
 	4 * -- A d 5
 	5 * -- O d 6
 	6 * -- _ d 7
-	7 write_aceita retorne
+	7 write_aceita 8
+  8 * -- * i retorne
 fim
 
 bloco aceita 1
@@ -127,7 +128,8 @@ bloco aceita 1
    2 * -- _ e 2
    3 _ -- * i 4
    3 * -- * e 3
-   4 write_result retorne
+   4 write_result 5
+   5 * -- * i retorne
 fim
 
 bloco apaga_fita 1
