@@ -1,4 +1,4 @@
-# Machine-Turing-Simulator-MT-
+# Machine Turing Simulator MT
 ## Trabalho IFMG -Teoria da computação
 
 Implementação de um simulador de uma maquina de Turing (MT) em linguagem C.
