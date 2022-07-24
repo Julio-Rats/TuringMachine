@@ -15,7 +15,7 @@ int main(u_int8_t argc, u_int8_t* argv[])
     decodArgs(argc, argv);
     getBlocos(file);
 
-    memset(fita,'_',TAM_LINE);
+    memset(fita,'_',TAM_FITA-1);
     interface();
     exec(file);
 
@@ -25,22 +25,24 @@ int main(u_int8_t argc, u_int8_t* argv[])
 
 void interface(){
   u_int8_t input[TAM_INPUT];
-  system("clear");
-  printf("Simulador de Máquina de Turing ver. 1.0\nDesenvolvido como trabalho prático para ");
+  if (system("clear") != 0)
+      system("cls");
+  printf("Simulador de Máquina de Turing ver. 1.1\nDesenvolvido como trabalho prático para ");
   printf("a disciplina de Teoria da Computação\n" );
-  printf("Autor: Júlio César M.Cândido - IFMG 2018 Campus Formiga.\n\nForneça a palavra inicial: ");
+  printf("Autor: Júlio César M. Cândido - IFMG 2018 Campus Formiga.\n\nForneça a palavra inicial: ");
   scanf("%s", input);
   printf("\n");
-  strncpy(fita,input,strlen(input));
+  strncpy(fita, input, strlen(input));
 }
 
 void erroArgs(u_int8_t* exec_name){
-  system("clear");
-  printf("Error: Falta de parametro, exemplo:\n\n\t%s <Opções> <Fonte(Programa)>\n\n", exec_name);
-  printf("Opções: < -r > Modo execuçao silenciosa\n\t");
+  if (system("clear") != 0)
+      system("cls");
+  printf("Error: Falta de parametro, exemplo:\n\n\t%s <Opções> [-head xx] <Fonte(MT)>\n\n", exec_name);
+  printf("Opções:\n\t< -r > Modo execuçao silenciosa\n\t");
   printf("< -v > Modo debug, passo a passo\n\t");
   printf("< -s n > n computações com parada para uma nova entrada de modo\n\t");
-  printf("[ -head \"xx\"] marcadores do cabeçote na impressão da fita\n\n");
-  printf("Fonte(Progama): Entrada com arquivo.MT com codigo de execução\n\n");
+  printf("[-head xx] marcadores do cabeçote na impressão da fita\n\n");
+  printf("Fonte(MT): Entrada com arquivo.MT com codigo de execução\n\n");
   exit(1);
 }

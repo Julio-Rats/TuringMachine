@@ -1,17 +1,18 @@
-#ifndef DECODARGS
+#ifndef  DECODARGS
 #define  DECODARGS
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#define DELIM_PADRAO "()"
 /*
     Enum para definir qual PARAMETRO de impressão a MT executara.
 */
 
 typedef enum
 {
-    type_r=1,  //  Tipo silencioso
+    type_r,    //  Tipo silencioso
     type_v,    //  Tipo "verboso"
     type_s     //  Tipo n step para e pega novo modo
 }type_mod;

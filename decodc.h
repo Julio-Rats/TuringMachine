@@ -18,7 +18,7 @@ typedef struct
 {
     u_int8_t  name[TAM_BLOCK];      // Nome do bloco declarado.
     u_int8_t  initState[TAM_STATE]; // Estado inicial do bloco.
-    u_int32_t position_file;         // posição do bloco no arquivo.
+    u_int64_t position_file;        // posição do bloco no arquivo.
 }bloco;
 
 /*

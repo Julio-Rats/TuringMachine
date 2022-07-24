@@ -1,4 +1,4 @@
-#ifndef EXEC
+#ifndef  EXEC
 #define  EXEC
 
 #include <stdio.h>
@@ -8,6 +8,10 @@
 #include "decodArgs.h"
 #include "stack.h"
 
+#define NO_LOOP        0              // 1-True, 0-False
+#define LIMIT_LOOP     1000000        // Max iteration for loop detection
+#define LEN_FITA_PRINT 100            // Tamanho da fita na impressão
+
 static u_int64_t n_exec;
 
 stack*       pilha_blocos;            //  Pilha para chamada de blocos.
@@ -15,7 +19,7 @@ u_int8_t     estado_atual[TAM_STATE];
 u_int8_t     novo_estado[TAM_STATE];  //  Estado atual e proximo a ser carrego.
 u_int8_t     bloco_atual[TAM_BLOCK];  //  Bloco atual de execução da MT.
 u_int8_t     simbolo_atual[2];        //  Simbolo atual sobre o cabeçote.
-u_int8_t     fita[TAM_FITA];           //  Fita da MT.
+u_int8_t     fita[TAM_FITA];          //  Fita da MT.
 int64_t      cabecote;                //  Posição do cabeçote na fita da MT.
 u_int32_t    seek;                    //  Semente para andar no arquivo.
 

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-O3 -W
+CFLAGS=-O3
 TARGET=simturing
 HDR=$(wildcard *.h)
 SRC=$(wildcard *.c)

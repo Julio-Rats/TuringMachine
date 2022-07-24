@@ -1,14 +1,12 @@
 #include "exec.h"
 
-#define NO_LOOP 0 // 1-True, 0-False
-
 /*
   Função onde procura pelo nome do bloco, e seta as variaveis de controle da
     MT, de acordo com as variaveis do bloco a ser executado.
         variaveis de um bloco:
                 name          : Nome do bloco.
-                initState     : Posição no arquivo onde inicia o bloco.
-                position_file : Numero da fila do bloco sendo executando.
+                initState     : Numero do estado inicial do bloco.
+                position_file : Posição no arquivo onde inicia o bloco.
                 ================> variaveis de controle da MT <==============
                 name_bloco    : Nome do bloco a ser executado.
                 estado_atual  : Estado atual na MT.
@@ -17,77 +15,76 @@
 */
 void setseekbloco(FILE *arq, u_int8_t*name_bloco)
 {
-  strcpy(bloco_atual,name_bloco);
-  for(u_int16_t i = 0; i < n_blocos; i++)
-     if(strcmp(blocos[i].name,name_bloco)==0)
-     {
-          strcpy(estado_atual, blocos[i].initState);
-          seek = blocos[i].position_file;
-          return;
-    }
+    strcpy(bloco_atual, name_bloco);
+    for(u_int16_t i = 0; i < n_blocos; i++)
+        if(strcmp(blocos[i].name, name_bloco) == 0)
+        {
+            strcpy(estado_atual, blocos[i].initState);
+            seek = blocos[i].position_file;
+            return;
+        }
     fprintf(stderr, "\nERRO BLOCO '%s' NÃO ENCONTRADO\n", name_bloco);
     para(arq);
 }
 
 void exec(FILE *arq)
 {
-   n_exec = 0;        // Contador de numeros de execução.
+   n_exec             = 0;           // Contador de numeros de execução.
    pilha_blocos       = initStack(); // Pilha para chamadas de blocos.
    cabecote           = 0;           // Reset posição do cabeçote sobre a fita.
    u_int8_t** vetoken = NULL;        // Vetor com as tokens das linhas de intstrução.
-   u_int8_t*  line    = (u_int8_t*) malloc(sizeof(u_int8_t)*(TAM_LINE)); // "String" leitura do aquivo.
-   int8_t type_cod;                  // Tipo de intstrução a ser executada, 0 = intstrução normal, 1 = intstrução chamada bloco.
+   u_int8_t*  line    = (u_int8_t*) malloc(sizeof(u_int8_t)*TAM_LINE); // "String" leitura do aquivo.
+   u_int8_t   type_cod;              // Tipo de intstrução a ser executada, 0 = intstrução normal, 1 = intstrução chamada bloco.
 
-   setseekbloco(arq, "main");    // Seta variaveis de controle do bloco main.
-   fseek(arq, seek, SEEK_SET);   //  Aplica posição inicio do bloco main.
+   setseekbloco(arq, "main");        // Seta variaveis de controle do bloco main.
+   fseek(arq, seek, SEEK_SET);       //  Aplica posição inicio do bloco main.
 
-   fgets(line, TAM_LINE-1, arq); // Leitura de uma linha do arq.
-   while(!feof(arq)){
+   fgets(line, TAM_LINE-1, arq);     // Leitura de uma linha do arq.
+   while(!feof(arq))
+   {
+        if (NO_LOOP)
+            if (n_exec >= LIMIT_LOOP)// Verifica quant de interações, tratar loops.
+            {
+                if (modo != type_s)
+                {
+                    print(0,arq);   // Chama função para imprimir
+                    modo = type_v;  // Seta para imprimir.
+                }    // Verifica se esta no modo de não impressão.
+                fprintf(stderr, "\nMT PARADA, POSSIVEL LOOP INFINITO\n\n" );
+                para(arq);
+            }
+        if (line[0] == ';') // Verifica linha de comentario.
+        {
+            fgets(line,TAM_LINE-1,arq);
+            continue;
+        }
 
-       if(NO_LOOP)
-           if (n_exec >= 50000)// Verifica quant de interações, tratar loops.
-           {
-              if (modo != 3)
-              {
-                  print(0,arq);  // Chama função para imprimir
-                  modo = 2;      // Seta para imprimir.
-              }    // Verifica se esta no modo de não impressão.
-              fprintf(stderr, "\nMT PARADA, POSSIVEL LOOP INFINITO\n\n" );
-              para(arq);
-           }
+        vetoken = decodline(line);  // Decodifica linha e retorna tokens
 
-       if (line[0] == ';') // Verifica linha de comentario.
-       {
-         fgets(line,TAM_LINE-1,arq);
-         continue;
-       }
+        if (!vetoken)  // Verifica se a linha foi de comentario.
+        {
+            fgets(line,TAM_LINE-1,arq);
+            continue;
+        }
 
-       vetoken = decodline(line);  // Decodifica linha e retorna tokens
-
-       if (!vetoken)  // Verifica se a linha foi de comentario.
-       {
-          fgets(line,TAM_LINE-1,arq);
-          continue;
-       }
-
-       if(strcmp(vetoken[0],"fim")==0)  // Verifica se não existe transição definida.
-       {
+        if(strcmp(vetoken[0],"fim")==0)  // Verifica se não existe transição definida.
+        {
             strtok(estado_atual,"\n");   //  Remove \n para apresentação no printf.
-            modo = 2;                    //   Muda modo para que acha sempre essa impressão.
+            modo = type_v;               //   Muda modo para que acha sempre essa impressão.
             print(0, arq);               //    Printa essa ultima execução.
             // ----- MANDA MSG COM ERRO PARA O USUARIO ----- //
             fprintf(stderr, "\nERROR TRANSIÇÃO BLOCO '%s' ESTADO '%s' COM '%c' NÃO DEFINIDA\n\n",bloco_atual, estado_atual, fita[cabecote]);
             fprintf(stderr, "ESTADO '%s' NÃO EXISTE ", estado_atual);
             fprintf(stderr, "OU SIMBOLO '%C' NÃO DEFINIDO NO ALFABETO\n", fita[cabecote]);
             para(arq);   // Finaliza MT.
-       }
+        }
 
-       if(atoi(vetoken[0]) == atoi(estado_atual))  // Verifica se esta numa transição desse estado.
-       {
+        if(atoi(vetoken[0]) == atoi(estado_atual))  // Verifica se esta numa transição desse estado.
+        {
             if (cont < 3) // Verifica erro de SINTAXE.
             {
                 fprintf(stderr, "ERRO SINTAXE BLOCO '%s' ESTADO '%s'\n\n",
-                         bloco_atual, estado_atual);
+                    bloco_atual, estado_atual);
                 fclose(arq);
                 exit(EXIT_FAILURE);
             }
@@ -99,31 +96,30 @@ void exec(FILE *arq)
             simbolo_atual[0] = fita[cabecote]; // Seta simbolo atual da fita.
             simbolo_atual[1] = '\0';
             if ((type_cod == 0) && ((strcmp(simbolo_atual, vetoken[1]) == 0) ||
-                      (strcmp(vetoken[1],"*") == 0))) { // Verifica se pertece a esta transição.
+                        (strcmp(vetoken[1],"*") == 0))) { // Verifica se pertece a esta transição.
 
                 n_exec++;  // Incrimenta num de execução feitas.
                 execinstr(vetoken, arq);  // Executa linha de intstruções normais.
             }
             else
                 if (type_cod == 1)
-                  execblock(vetoken, arq); // Executa linha de intstruções de blocos.
-       }
+                    execblock(vetoken, arq); // Executa linha de intstruções de blocos.
+        }
 
-       if (vetoken)   // Desaloca Tokens.
-       {
-          free(vetoken);
-          vetoken = NULL;
-      }
-
-      fgets(line,TAM_LINE-1,arq);  // Leitura da proxima linha e loop.
-   }
+        if (vetoken)   // Desaloca Tokens.
+        {
+            free(vetoken);
+            vetoken = NULL;
+        }
+        fgets(line,TAM_LINE-1,arq);  // Leitura da proxima linha e loop.
+    }
 }
 /*
     Para execução da MT.
 */
 void para(FILE *arq)
 {
-      printf("\nMT ENCERROU:  %d execuções efetuadas\n\n", n_exec);
+      printf("\nMT ENCERROU:  %ld execuções efetuadas\n\n", n_exec);
       fclose(arq);
       exit(EXIT_SUCCESS);
 }
@@ -159,7 +155,7 @@ void execinstr(u_int8_t** vetline, FILE* arq)
     else if (strcmp(vetline[4],"i")!=0)
     {
         fprintf(stderr, "\nERRO SINTAXE MOVIMENTO BLOCO '%s' ESTADO '%s' COM SIMBOLO '%s'\n\n",
-                  bloco_atual, estado_atual, estado_atual);
+                bloco_atual, estado_atual, estado_atual);
         fclose(arq);
         exit(EXIT_FAILURE);
     }
@@ -174,50 +170,46 @@ void execinstr(u_int8_t** vetline, FILE* arq)
     }
     // Estado novo
     if (strcmp(vetline[5],"pare")==0) // Verifica Fim do algoritimo.
-         fin = 1;
+        fin = 1;
+    else if (strcmp(vetline[5],"retorne")==0)  // Verifica retorno de um bloco.
+    {
+        do{
+            recall *retorno = popStack(pilha_blocos); // Desempilha bloco da pilha.
+            if (!retorno)  // Trata algum erro se ocorrer.
+            {
+                printf("\nERRO DE RETORNO DO BLOCO '%s' \n", bloco_atual);
+                para(arq);
+            }
+            /* Seta variaveis de controle:
+                bloco_atual : Nome do bloco atual.
+                n_bloco_atual : Posição no vetor (indice).
+                novo_estado   : Novo Estado da MT, estado de retorno.
+                estado_atual  : Estado atual da MT.
+            */
+            strcpy(bloco_atual,  (u_int8_t*)retorno->recall_bloco);
+            strcpy(novo_estado,  retorno->recall_state);
+            strcpy(estado_atual, novo_estado);
+            // Verifica se a retornada é um pare.
+            if (strcmp(novo_estado,"pare") == 0)
+            {
+                fin = 1;
+                strcpy(novo_estado,  (u_int8_t*) retorno->final_state);
+                strcpy(estado_atual, novo_estado);
+            }
+        }while (strcmp(novo_estado,"retorne") == 0);
+    }
     else
     {
-      if (strcmp(vetline[5],"retorne")==0)  // Verifica retorno de um bloco.
-      {
-          do{
-              recall *retorno = popStack(pilha_blocos); // Desempilha bloco da pilha.
-              if (!retorno)  // Trata algum erro se ocorrer.
-              {
-                      printf("\nERRO DE RETORNO DO BLOCO '%s' \n", bloco_atual);
-                      para(arq);
-              }
-              /* Seta variaveis de controle:
-                      bloco_atual : Nome do bloco atual.
-                      n_bloco_atual : Posição no vetor (indice).
-                      novo_estado   : Novo Estado da MT, estado de retorno.
-                      estado_atual  : Estado atual da MT.
-              */
-              strcpy(bloco_atual,  (u_int8_t*)retorno->recall_bloco);
-              strcpy(novo_estado,  retorno->recall_state);
-              strcpy(estado_atual, novo_estado);
-              // Verifica se a retornada é um pare.
-              if (strcmp(novo_estado,"pare") == 0)
-              {
-                  fin = 1;
-                  strcpy(novo_estado,  (u_int8_t*) retorno->final_state);
-                  strcpy(estado_atual, novo_estado);
-              }
-          }while (strcmp(novo_estado,"retorne") == 0);
-      }
-      else
-      {
-          // Caso não seja um retorno seta o novo estado.
-          if (strcmp(vetline[5],"*")==0)
-              strcpy(novo_estado, estado_atual);
-          else
+        // Caso não seja um retorno seta o novo estado.
+        if (strcmp(vetline[5],"*")==0)
+            strcpy(novo_estado, estado_atual);
+        else
             strcpy(novo_estado, vetline[5]);
-
-      }
     }
     // Tratar o comando "!".
     if (cont > 6)
         if (strcmp("!",vetline[6]) == 0)
-            modo = 2;
+            modo = type_v;
     /*
       Imprime a execução e seta o inicio do bloco no arq para
           nova busca de transição para novo estado e simbolo.
@@ -228,14 +220,14 @@ void execinstr(u_int8_t** vetline, FILE* arq)
     fseek(arq,seek, SEEK_SET);
 }
 /*
-    Executa instrução de chamada de blocos, empilha a o bloco atual.
+    Executa instrução de chamada de blocos, empilha o bloco atual.
 */
 void execblock(u_int8_t** vetline, FILE* arq)
 {
     print(0, arq);  // Imprime execução atual.
     recall *retorno = NULL;
     retorno         = (recall*) malloc(sizeof(recall)); // Aloca ED de chamada de bloco.
-    if (!retorno)  // Trata possivel erro de alocação.
+    if (!retorno)   // Trata possivel erro de alocação.
     {
         fprintf(stderr, "\nERRO ALOCAMENTO DE CHAMADA DE BLOCO\n\n");
         exit(EXIT_FAILURE);
@@ -243,17 +235,17 @@ void execblock(u_int8_t** vetline, FILE* arq)
 
     strcpy((u_int8_t*)retorno->recall_bloco, bloco_atual); // Seta na strtc nome do Bloco atual.
     if (strcmp(vetline[2],"pare") == 0)
-         strcpy(retorno->final_state, estado_atual);       //  Seta na strtc estado de retorno.
+        strcpy(retorno->final_state, estado_atual);        // Seta na strtc estado de retorno.
 
-    strcpy(retorno->recall_state, vetline[2]);      //   Seta na strtc estado de retorno.
+    strcpy(retorno->recall_state, vetline[2]);      //    Seta na strtc estado de retorno.
     pushStack(pilha_blocos, retorno);               //    Empilha esse bloco na ED pilha.
-    setseekbloco(arq, vetline[1]);                  //     Seta variaveis de controle.
-    print(0, arq);                                  //      Imprime execução.
-    fseek(arq,seek,SEEK_SET);                       //       Seta posição no arq com novo bloco.
+    setseekbloco(arq, vetline[1]);                  //    Seta variaveis de controle.
+    print(0, arq);                                  //    Imprime execução.
+    fseek(arq,seek, SEEK_SET);                      //    Seta posição no arq com novo bloco.
 
     if (cont > 3)   // Trata operador "!"
-      if (strcmp("!",vetline[3])==0)
-          modo = 2;
+        if (strcmp("!",vetline[3])==0)
+            modo = type_v;
 }
 
 /*
@@ -261,123 +253,119 @@ void execblock(u_int8_t** vetline, FILE* arq)
 */
 void print(int16_t fin, FILE* arq)
 {
-    static u_int16_t step = 0;   // Controle do modo -s
-    step++;
-
+    int return_scanf;
     int16_t dots;
     int16_t fitantes,fitapos;
-    int8_t flagvaziantes = 1;
-    u_int8_t fitaprint[46];
-    u_int8_t ponts[17];
+    int8_t  flagvaziantes = 1;
+    u_int8_t fitaprint[LEN_FITA_PRINT+6];
+    u_int8_t ponts[TAM_BLOCK];
 
-    if (modo != 1)   // Modo de impressão.
+    if (modo != type_r)   // Modo de impressão.
     {
-          dots    = 16 - strlen(bloco_atual);      // Sobra do nome do bloco, a ser preenchido de pontos.
-          fitapos  = cabecote + 20 - strlen(fita);   // Excesso ou falta de simbolos depois do cabeçote.
-          fitantes = 20 - cabecote;                 // Excesso ou falta de simbolos antes do cabeçote.
-          // Verifica se houve excesso antes.
-          if (fitantes < 0)
-          {
-              fitantes     *= -1; // "ABS"
-              flagvaziantes =  0;// Desativa FLAG;
-          }
-          // Verifica se houve excesso apos.
-          if (fitapos < 0)
-              fitapos     *= -1;
-
-          int16_t cont = 0;
-          // Cria a "LINHA" de impressão.
-          if (flagvaziantes)  // Trata se tiver menos de 20 antes do cabecote.
-          {
-              strcpy(fitaprint,"");
-              for (int16_t i = 0 ; i < fitantes ; i++)
-                  strcat(fitaprint,"_");
-
-              cont = fitantes;
-              strncat(fitaprint,fita,cabecote);
-              cont += cabecote;
-          }
-          else
-          {  // Trata se tiver mais de 20 antes do cabecote.
-             strcpy(fitaprint,"");
-             for (int32_t i = fitantes ; i < cabecote ; i++)
-                  fitaprint[cont++] = fita[i];
-
-             fitaprint[cont] = '\0';
-          }
-
-          u_int8_t pont[6];
-          // Cria "visual" do cabeçote.
-          pont[0] = (u_int8_t)delim_cabecote[0];
-          pont[1] = ' ';
-          pont[2] =(u_int8_t)fita[cabecote];
-          pont[3] = ' ';
-          pont[4] = (u_int8_t)delim_cabecote[1];
-          pont[5] = '\0';
-          cont   += 5;
-
-          // Adiciona cabecote na impressão.
-          strcat(fitaprint,pont);
-          // Adiciona a frente do cabecote na impressão.
-          for (int16_t i = cabecote + 1; i < cabecote + 21; i++)
+        dots     = TAM_BLOCK - strlen(bloco_atual) - 1;                    // Sobra do nome do bloco, a ser preenchido de pontos.
+        fitapos  = cabecote + (int)((LEN_FITA_PRINT)/2) - strlen(fita);  // Excesso ou falta de simbolos depois do cabeçote.
+        fitantes = (int)((LEN_FITA_PRINT)/2) - cabecote ;                 // Excesso ou falta de simbolos antes do cabeçote.
+        // Verifica se houve excesso antes.
+        if (fitantes < 0)
+        {
+            fitantes     *= -1; // "ABS"
+            flagvaziantes =  0;// Desativa FLAG;
+        }
+        // Verifica se houve excesso apos.
+        if (fitapos < 0)
+            fitapos     *= -1;
+        int16_t cont = 0;
+        // Cria a "LINHA" de impressão.
+        if (flagvaziantes)  // Trata se tiver menos de 20 antes do cabecote.
+        {
+            strcpy(fitaprint,"");
+            for (int16_t i = 0 ; i < fitantes ; i++)
+                strcat(fitaprint,"_");
+            cont = fitantes;
+            strncat(fitaprint, fita, cabecote);
+            cont += cabecote;
+        }
+        else
+        {  // Trata se tiver mais de 20 antes do cabecote.
+            strcpy(fitaprint,"");
+            for (int32_t i = fitantes ; i < cabecote ; i++)
                 fitaprint[cont++] = fita[i];
+            fitaprint[cont] = '\0';
+        }
 
-          fitaprint[45] = '\0';
+        u_int8_t pont[6];
+        // Cria "visual" do cabeçote.
+        pont[0] = (u_int8_t)delim_cabecote[0];
+        pont[1] = ' ';
+        pont[2] =(u_int8_t)fita[cabecote];
+        pont[3] = ' ';
+        pont[4] = (u_int8_t)delim_cabecote[1];
+        pont[5] = '\0';
+        cont   += 5;
 
-          // ADD pontos ante do nome do bloco
-          memset(ponts,'.',dots);
-          ponts[dots]  = '\0';
-          // Imprimi.
-          printf("%s%s.%04d:%s\n",ponts,bloco_atual ,atoi(estado_atual),fitaprint);
-
-          // Trata modo -s, quando o valor inspirar.
-          if ((n_step <= step) && (modo == 3))
-          {
-              u_int8_t op[3];
-              int16_t  n_temp = -1;
-              printf("\nForneça opção ('-r','-v','-s' ou '-n' (None)): ");
-              scanf("%s", op);
-              // Pega a nova op de modo, se for -s ou -n trata possiveis erros.
-              if (strlen(op)>1)
-                  switch (op[1])
-                  {
+        // Adiciona cabecote na impressão.
+        strcat(fitaprint, pont);
+        // Adiciona a frente do cabecote na impressão.
+        for (int16_t i = cabecote + 1; i < cabecote + (int)((LEN_FITA_PRINT)/2)+1; i++)
+            fitaprint[cont++] = fita[i];
+        fitaprint[LEN_FITA_PRINT+6-1] = '\0';
+        // ADD pontos ante do nome do bloco
+        memset(ponts,'.',dots);
+        ponts[dots]  = '\0';
+        // Imprimi.
+        printf("%s%s.%04d:%s\n",ponts,bloco_atual ,atoi(estado_atual),fitaprint);
+        // Trata modo -s, quando o valor inspirar.
+        if ((n_step <= n_exec) && (modo == type_s))
+        {
+            u_int8_t op[3];
+            int16_t  n_temp = -1;
+            do{
+                printf("\nForneça opção ('-r','-v','-s' ou '-n' (None)): ");
+                return_scanf = scanf("%s", op);
+            }while(return_scanf == EOF);
+            // Pega a nova op de modo, se for -s ou -n trata possiveis erros.
+            if (strlen(op)>1)
+                switch (op[1])
+                {
                     case 'r':
-                          modo = 1;
-                      break;
+                            modo = type_r;
+                        break;
                     case 'v':
-                          modo = 2;
-                      break;
+                            modo = type_v;
+                        break;
                     case 's':
-                          printf("Digite o numeros de passos: ");
-                          scanf("%ld", &n_temp);
-                          while(n_temp <=0 )
-                          {
-                              printf("Digite um numero maior que zero: ");
-                              scanf("%ld", &n_temp);
-                          }
-                          n_step = step + n_temp;
-                          step_arg = n_temp;
-                      break;
+                            do{
+                                printf("Digite o numeros de passos: ");
+                                return_scanf = scanf("%hd", &n_temp);
+                            }while(return_scanf == EOF);
+                            while(n_temp <= 0 )
+                            do{
+                                printf("Digite um numero maior que zero: ");
+                                return_scanf = scanf("%hd", &n_temp);
+                            }while(return_scanf == EOF);
+                            n_step = n_exec + n_temp;
+                            step_arg = n_temp;
+                        break;
                     case 'n':
-                          n_step += step_arg ;
-                      break;
+                            n_step += step_arg ;
+                        break;
                     default:
-                          n_step += step_arg ;
-                      break;
-                  }
-                  else
-                      n_step += step_arg ;
-                  printf("\n");
-          }
+                            n_step += step_arg ;
+                        break;
+            }
+            else
+                n_step += step_arg ;
+            printf("\n");
+        }
     }
     // Caso o modo encontre um pare , ele entrara aq e finalizara a MT.
     if (fin)
     {
-      if (modo == 1)
-      {
-           modo = 2;
-           print(1, arq);
-       }
-       para(arq);
+        if (modo == type_r)
+        {
+            modo = type_v;
+            print(1, arq);
+        }
+        para(arq);
     }
 }

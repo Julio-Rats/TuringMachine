@@ -60,13 +60,13 @@ fim ; iniDir
 
 ; Apaga tudo
 bloco ApagaTudo 01
-	01 _ -- * e retorne
-	01 * -- _ d 01
+	01 _ -- * d retorne
+	01 * -- _ e 01
 fim ; apaga tudo
 
 ; palavra eh palindromo
 bloco sim 01
-	01 moveIni 02
+	01 moveFim 02
 	02 ApagaTudo 03
 	03 * -- * d 04
 	04 * -- _ d 05
@@ -77,7 +77,7 @@ fim ; sim
 
 ; palavra nao eh palindromo
 bloco nao 01
-	01 moveIni 02
+	01 moveFim 02
 	02 ApagaTudo 03
 	03 * -- * d 04
 	04 * -- _ d 05

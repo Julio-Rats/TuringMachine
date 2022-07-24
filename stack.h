@@ -1,4 +1,4 @@
-#ifndef STACK
+#ifndef  STACK
 #define  STACK
 
 #include <stdlib.h>
@@ -16,7 +16,7 @@ struct stack // Estrutura da pilha, sempre aponta pro topo.
 struct cell // Estrutura a ser empilhada na pilha.
 {
     recall *data;
-    cell  *bot;
+    cell   *bot;
 };
 
 struct recall // Estrutura dos dados alocados na celula.

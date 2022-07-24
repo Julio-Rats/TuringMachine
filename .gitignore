@@ -2,3 +2,4 @@
 simturing
 *.o
 *.gch
+.vscode
