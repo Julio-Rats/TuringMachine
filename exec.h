@@ -10,7 +10,7 @@
 
 #define NO_LOOP        0              // 1-True, 0-False
 #define LIMIT_LOOP     1000000        // Max iteration for loop detection
-#define LEN_FITA_PRINT 100            // Tamanho da fita na impressão
+#define LEN_FITA_PRINT 40             // Tamanho da fita na impressão
 
 static u_int64_t n_exec;
 
