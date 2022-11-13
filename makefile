@@ -1,25 +1,39 @@
-CC=gcc
-CFLAGS=-O3
-TARGET=simturing
-HDR=$(wildcard *.h)
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.o)
-HDRC=$(HDR:.h=.h.gch)
+CC = gcc
 
-all: $(TARGET) clean
+MYFLAGS = -g -O2 -Wall
+
+TARGET = simturing
+
+OBJFILES = decodArgs.o decodc.o exec.o main.o stack.o
+
+default: all
+
+all:
+	$(MAKE) $(TARGET)
+
 # regras para gerar o executavel
-$(TARGET) : .h .c
-	$(CC) -o $@ $(OBJ) $(CFLAGS)
+$(TARGET): $(OBJFILES) 
+	$(CC) -o $(TARGET) $(OBJFILES) 
 
 # regras de compilação
-.c:
-	$(CC) -c $(SRC) $(CFLAGS)
+decodArgs.o: decodArgs.c decodArgs.h
+	$(CC) -c $(MYFLAGS) decodArgs.c  
 
-.h:
-	$(CC) -c $(HDR) $(CFLAGS)
+decodc.o: decodc.c decodc.h
+	$(CC) -c $(MYFLAGS) decodc.c  
+
+exec.o: exec.c exec.h decodc.h decodArgs.h stack.h
+	$(CC) -c $(MYFLAGS) exec.c  
+
+main.o: main.c main.h exec.h decodc.h decodArgs.h stack.h
+	$(CC) -c $(MYFLAGS) main.c  
+
+stack.o: stack.c stack.h decodc.h
+	$(CC) -c $(MYFLAGS) stack.c 
 
 clean:
-	rm -rf $(OBJ) $(HDRC)
+	rm -f *.o
+	rm $(TARGET)
 
 clear:
-	rm -rf $(TARGET)
+	rm -f *.o

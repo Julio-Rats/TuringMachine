@@ -1,5 +1,5 @@
-#ifndef  MAIN
-#define  MAIN
+#ifndef MAIN
+#define MAIN
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +9,6 @@
 #define TAM_INPUT 65536
 
 void interface();
-void erroArgs(u_int8_t* exec_name);
+void erroArgs(char *exec_name);
 
 #endif
