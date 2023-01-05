@@ -1,7 +1,12 @@
 # Machine Turing Simulator
+
+<div align="center">
+<img  align="MIDDLE" width="400" height="200" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/>
+</div>
+
 ## Trabalho IFMG 2018 - Teoria da Computação
 
-Implementação de um simulador de uma maquina de Turing (MT) em linguagem C.
+### Implementação de um simulador de uma maquina de Turing (MT) em linguagem C.
 
 Simulador na qual deve ser passada uma maquina de turing descrita na lingaguem pre-definida 
 e posteriomente em execução fornecer uma entrada, no qual o simulador irá executar a fita
