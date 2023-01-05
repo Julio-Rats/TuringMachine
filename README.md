@@ -1,6 +1,7 @@
+<div align="center">
+
 # Machine Turing Simulator
 
-<div align="center">
 <img  align="MIDDLE" width="400" height="200" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/>
 </div>
 
