@@ -32,7 +32,7 @@ void interface()
     printf("Autor: Júlio César M. Cândido - IFMG 2018 Campus Formiga.\n\nForneça a palavra inicial: ");
     scanf("%s", input);
     printf("\n");
-    strncpy(fita, input, sizeof(char) * (strlen(input)));
+    strncpy(fita, input, strlen(input));
 }
 
 void erroArgs(char *exec_name)
