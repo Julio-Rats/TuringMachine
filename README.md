@@ -5,17 +5,17 @@
 <img  align="MIDDLE" width="400" height="200" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/>
 </div>
 
-## Trabalho IFMG 2018 - Teoria da ComputaÃ§Ã£o
+## Trabalho IFMG 2018 - Teoria da Computação
 
-### ImplementaÃ§Ã£o de um simulador de uma maquina de Turing (MT) em linguagem C.
+### Implementação de um simulador de uma maquina de Turing (MT) em linguagem C.
 
-Simulador na qual deve ser passada uma maquina de turing descrita na lingaguem pre-definida 
-e posteriomente em execuÃ§Ã£o fornecer uma entrada, no qual o simulador irÃ¡ executar a fita
-seguindo a maquina descrita em arquivo passada por parÃ¢metro.
+Simulador na qual deve ser passada uma maquina de Turing descrita na linguagem pre-definida 
+e posteriormente em execução fornecer uma entrada, no qual o simulador irá executar a fita
+seguindo a maquina descrita em arquivo passada por parâmetro.
 
-ImplementaÃ§Ã£o seguindo especificaÃ§Ãµes do trabalho da disciplina Teoria da ComputaÃ§Ã£o 5Âº periodo IFMG campus Formiga 2018.
+Implementação seguindo especificações do trabalho da disciplina Teoria da Computação 5º período IFMG campus Formiga 2018.
 Professor: Walace de Almeida Rodrigues.
 
-Autor: JÃºlio CÃ©sar de Melo CÃ¢ndido.
+Autor: Júlio César de Melo Cândido.
 
 Enunciado: https://drive.google.com/open?id=1Yy40eHoCz7ycxLzKEO7QvzMQwuJxuSTY

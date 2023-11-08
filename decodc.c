@@ -2,29 +2,29 @@
 
 void getBlocos(FILE *arq)
 {
-  char **vetline;         // Saida da funÃ§Ã£o decodline.
+  char **vetline;         // Saida da função decodline.
   char line[TAM_LINE];    // Vetor de char, pra leitura do arquivo.
   short int flag_fim = 0; // Fim da MT.
   n_blocos = 0;           // Tamanho do vetor blocos.
   rewind(arq);            // Reinicia ponteiro do arquivo.
-  // Faz leitura no aquivo, ate "\n ou \0", ou tamanho passado parametro.
+  // Faz leitura no aquivo, ate "\n ou \0", ou tamanho passado parâmetro.
   fgets(line, TAM_LINE - 1, arq);
   while (!feof(arq))
   {
-    // Trata comentario com, com ";" no incio da linha.
+    // Trata comentário com, com ";" no incio da linha.
     if (line[0] == ';')
     {
       fgets(line, TAM_LINE - 1, arq);
       continue;
     }
-    // Chamada da funÃ§Ã£o quebrando a linha em tokens.
+    // Chamada da função quebrando a linha em tokens.
     vetline = decodline(line);
     if (!vetline)
     {
       fgets(line, TAM_LINE - 1, arq);
       continue;
     }
-    // Verifica se a linha Ã© uma declaraÃ§Ã£o de um bloco.
+    // Verifica se a linha é uma declaração de um bloco.
     if ((strcmp(vetline[0], "bloco") == 0) && flag_fim)
     {
       fprintf(stderr, "\nERROR SINTAXE BLOCOS, BLOCO '%s'\n\n", blocos[n_blocos - 1].name);
@@ -33,7 +33,7 @@ void getBlocos(FILE *arq)
     }
     if (strcmp(vetline[0], "bloco") == 0)
     {
-      // Tramento de erro sintaxe.
+      // Tratamento de erro sintaxe.
       flag_fim = 1;
       if (cont < 2)
       {
@@ -57,7 +57,7 @@ void getBlocos(FILE *arq)
         blocos = (bloco *)realloc(blocos, sizeof(bloco) * (++n_blocos));
       // Setando o bloco no vetor blocos.
       strcpy(blocos[n_blocos - 1].name, vetline[1]);
-      blocos[n_blocos - 1].position_file = ftell(arq); // posiÃ§Ã£o no arquivo.
+      blocos[n_blocos - 1].position_file = ftell(arq); // posição no arquivo.
       strcpy(blocos[n_blocos - 1].initState, vetline[2]);
     }
     if (strcmp(vetline[0], "fim") == 0)
@@ -75,16 +75,16 @@ void getBlocos(FILE *arq)
 
 char **decodline(char *line)
 {
-  char **vetoken = NULL; // Veotor de string de saida.
+  char **vetoken = NULL; // Vetor de string de saída.
   char *token = NULL;    // String usada para strtok.
-  cont = 0;              // Tamanho do Veotor de string (vetoken).
+  cont = 0;              // Tamanho do Vetor de string (vetoken).
 
-  token = strtok(line, ";\n");  // Trata comentario no meio da linha.
-  token = strtok(token, " \t"); // Quebra em tabulaÃ§Ã£o e/ou espaÃ§o dos tokens.
+  token = strtok(line, ";\n");  // Trata comentário no meio da linha.
+  token = strtok(token, " \t"); // Quebra em tabulação e/ou espaço dos tokens.
 
   while (token)
   {
-    // Aloca e expande o tamanho do vetor para saida.
+    // Aloca e expande o tamanho do vetor para saída.
     if (!vetoken)
       vetoken = (char **)malloc((++cont) * sizeof(char *));
     else

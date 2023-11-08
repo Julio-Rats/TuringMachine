@@ -1,8 +1,10 @@
 #include "main.h"
+#include <locale.h>
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3)
+    setlocale(LC_ALL,"");
+    if (argc < 2)
         erroArgs(argv[0]);
 
     FILE *file;
@@ -22,14 +24,21 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+#ifdef _WIN32
+    #define CLEAR "cls"
+#elif __linux__
+    #define CLEAR "clear"
+#else
+    #error "OS Not Supported"
+#endif
+
 void interface()
 {
     char input[TAM_INPUT];
-    if (system("clear") != 0)
-        system("cls");
-    printf("Simulador de MÃ¡quina de Turing ver. 1.1\nDesenvolvido como trabalho prÃ¡tico para ");
-    printf("a disciplina de Teoria da ComputaÃ§Ã£o\n");
-    printf("Autor: JÃºlio CÃ©sar M. CÃ¢ndido - IFMG 2018 Campus Formiga.\n\nForneÃ§a a palavra inicial: ");
+    system(CLEAR);
+    printf("Simulador de Máquina de Turing ver. 1.1\nDesenvolvido como trabalho prático para ");
+    printf("a disciplina de Teoria da Computação\n");
+    printf("Autor: Júlio César M. Cândido - IFMG 2018 Campus Formiga.\n\nForneça a palavra inicial: ");
     scanf("%s", input);
     printf("\n");
     strncpy(fita, input, strlen(input));
@@ -37,13 +46,12 @@ void interface()
 
 void erroArgs(char *exec_name)
 {
-    if (system("clear") != 0)
-        system("cls");
-    printf("Error: Falta de parametro, exemplo:\n\n\t%s <OpÃ§Ãµes> [-head xx] <Fonte(MT)>\n\n", exec_name);
-    printf("OpÃ§Ãµes:\n\t< -r > Modo execuÃ§ao silenciosa\n\t");
-    printf("< -v > Modo debug, passo a passo\n\t");
-    printf("< -s n > n computaÃ§Ãµes com parada para uma nova entrada de modo\n\t");
-    printf("[-head xx] marcadores do cabeÃ§ote na impressÃ£o da fita\n\n");
-    printf("Fonte(MT): Entrada com arquivo.MT com codigo de execuÃ§Ã£o\n\n");
+    system(CLEAR);
+    printf("Error: Falta de parâmetro, exemplo:\n\n\t%s [Opções] [-head xx] <Fonte(MT)>\n\n", exec_name);
+    printf("Opções:\n\t< -r > Modo execução silenciosa (Padrão)\n\t");
+    printf(" -v Modo debug, passo a passo\n\t");
+    printf(" -s n Executa n computações e espera uma novo modo de entrada\n\t");
+    printf(" -head xx Marcadores do cabeçote na impressão da fita\n\n");
+    printf(" Fonte(MT) Entrada com arquivo.MT com código de execução\n\n");
     exit(1);
 }
